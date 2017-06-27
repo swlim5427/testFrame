@@ -1,23 +1,31 @@
 import xlrd
 import json
+from action import *
 
-def testFrameDistribute(message):
+class testFrameDistribute():
 
-    # tableName = message["tableName"]
-    tableName = r"/testcase/"+message["tableName"]
-    # tableName = message["/testcase/testCase.xlsx"]
-    caseId = message["caseId"]
+    def getMessage(self,message):
 
-    testTable = xlrd.open_workbook(tableName)
-    testTableSheet = testTable.sheets()[0]
+        # tableName = message["tableName"]
+        tableName = r"./testcase/"+message["tableName"]
+        # tableName = message["/testcase/testCase.xlsx"]
+        caseId = message["caseId"]
 
-    rowNum = testTableSheet.nrows
-    getCase(testTableSheet,rowNum,caseId)
+        testTable = xlrd.open_workbook(tableName)
+        testTableSheet = testTable.sheets()[0]
 
-def getCase(tableName,rowNum,caseId):
-    for i in range(rowNum):
-        if tableName.row_value(i) == caseId:
-            tValue = tableName.cell(i,2).value
-            s = json.loads(tValue)
-            print s
-            print s["key1"]
+        rowNum = testTableSheet.nrows
+        nextCaseId,testCase = self.getCase(testTableSheet,rowNum,caseId)
+
+        print nextCaseId
+        print testCase
+
+
+    def getCase(self,tableName,rowNum,caseId):
+        for i in range(rowNum):
+            if tableName.cell(i,0).value == caseId:
+                tValue = tableName.cell(i,2).value
+                testCase = json.loads(tValue)
+                nextCaseId = tableName.cell(i,5).value
+                return nextCaseId,testCase
+

@@ -42,8 +42,11 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'text/html')
             self.end_headers()
 
-            test_frame_distribute.testFrameDistribute(param)
-        except:
+            testDistrubute = test_frame_distribute.testFrameDistribute()
+            testDistrubute.getMessage(param)
+
+        except Exception as e:
+            print e
             self.responseError()
 
     # ----------提取参数

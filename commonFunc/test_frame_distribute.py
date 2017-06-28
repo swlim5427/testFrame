@@ -48,8 +48,7 @@ class testFrameDistribute():
         caseType = self.analysisCaseId()
 
         if caseType == "asr":
-            test = asrTest.asrTest()
-            test.checkTestCase(self.caseId,testCase,self.nextCaseId,self.runTimes)
+            asrTest.asrTest(self.caseId,testCase,self.nextCaseId,self.runTimes)
 #-----------------------
     def analysisCaseId(self):
 

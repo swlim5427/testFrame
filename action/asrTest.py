@@ -1,8 +1,16 @@
 
 
 class asrTest():
-    def checkTestCase(self,caseId,testCase,nextCaseId,runTimes):
-        print caseId
-        print testCase
-        print nextCaseId
-        print runTimes
+    def __init__(self,caseId,testCase,nextCaseId,runTimes):
+        self.caseId = caseId
+        self.testCase = testCase
+        self.nextCaseId = nextCaseId
+        self.runTimes = runTimes
+
+        self.checkTestCase()
+
+    def checkTestCase(self):
+        print self.caseId
+        print self.testCase
+        print self.nextCaseId
+        print self.runTimes

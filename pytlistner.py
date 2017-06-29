@@ -50,11 +50,14 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
 
     # ----------提取参数
     def getParam(self,params):
+
         try:
             if len(params)==0:
                 return
             else:
-                param = params.split('=')[1]
+                if "+" in params:
+                    p = params.replace("+","")
+                param = p.split('=')[1]
                 return param
         except:
             self.responseError()
@@ -71,7 +74,9 @@ class CustomHTTPServer(HTTPServer):
 
 def main():
     server = CustomHTTPServer('172.21.10.227', 9989)
+    print "service start"
     server.serve_forever()
+
 
 if __name__ == '__main__':
     main()

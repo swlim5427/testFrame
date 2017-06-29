@@ -10,7 +10,13 @@ class testFrameDistribute():
         self.caseId = message["caseId"]
         self.runTimes = message["times"]
         self.url = message["url"]
-        self.getMessage()
+        self.haveNext = 0
+
+        if self.runTimes != 0:
+            self.getMessage()
+
+        else:
+            self.checkNextCase(self.nextCaseId)
 
     def getMessage(self):
 
@@ -48,7 +54,7 @@ class testFrameDistribute():
         caseType = self.analysisCaseId()
 
         if caseType == "asr":
-            asrTest.asrTest(self.caseId,testCase,self.nextCaseId,self.runTimes)
+            asrTest.asrTest(self.caseId,testCase,self.nextCaseId,self.runTimes,self.checkNextCase)
 
 
 #-----------------------
@@ -57,3 +63,10 @@ class testFrameDistribute():
         caseType = self.caseId.split('_')[0]
         return caseType
 
+#-----------------------
+
+
+    def checkNextCase(self,nextNum):
+        if nextNum != "":
+            print nextNum
+            print self.nextCaseId

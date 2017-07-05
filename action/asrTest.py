@@ -3,13 +3,13 @@ import os
 
 class asrTest():
 
-    def __init__(self,caseId,testCase,nextCaseId,runTimes,callback):
+    def __init__(self,caseId,testCase,nextCaseId,runTimes,testId):
 
         self.caseId = caseId
         self.testCase = testCase
         self.nextCaseId = nextCaseId
         self.runTimes = runTimes
-        self.callback = callback
+        self.testId = testId
         self.checkTestCase()
 
     def checkTestCase(self):

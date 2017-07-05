@@ -1,10 +1,12 @@
+# coding=utf-8
 import xlrd
 import json
 from action import *
+import public_methods
 
 
 class testFrameDistribute():
-#-----------------------
+    #-----------------------
     def __init__(self,message):
         self.tableName = r"./testcase/"+message["tableName"]
         self.caseId = message["caseId"]
@@ -12,13 +14,14 @@ class testFrameDistribute():
         self.url = message["url"]
         self.haveNext = 0
 
-        if self.runTimes != 0:
-            self.getMessage()
+        if message["id"] == "":
+            self.getTestCase()
 
         else:
-            self.checkNextCase(self.nextCaseId)
-
-    def getMessage(self):
+            self.runId = message["id"]
+            self.checkNextCase(self.runId)
+    # ------------读取测试表格-----------
+    def getTestCase(self):
 
         testTable = xlrd.open_workbook(self.tableName)
         self.testTableSheet = testTable.sheets()[0]
@@ -27,12 +30,20 @@ class testFrameDistribute():
         nextId,testCase = self.getCase()
         self.nextCaseId = self.getNextCaseId(nextId)
 
+        sSql = "select id from testFrame ORDER BY id DESC limit 0,1"
+
+        for testId in public_methods.sqliteConnect([sSql,0]):
+            self.testId = testId
+
+        iSql = "insert into testFrame VALUES (\""+str(int(testId)+1)+"\",\""+str(self.caseId)+"\",\""+str(self.nextCaseId)+"\");"
+
+        public_methods.sqliteConnect([iSql,0])
+
         self.testDistribute(testCase)
-#-----------------------
+    #------------获取case-----------
     def getCase(self):
 
         for i in range(self.rowNum):
-
             if self.testTableSheet.cell(i,0).value == self.caseId:
 
                 tValue = self.testTableSheet.cell(i,2).value
@@ -40,33 +51,41 @@ class testFrameDistribute():
                 nextCaseId = self.testTableSheet.cell(i,5).value
 
                 return nextCaseId,testCase
-#-----------------------
+    #------------获取nextid-----------
     def getNextCaseId(self,nextId):
 
-        if nextId  != 0:
+        if nextId != 0:
+            if nextId.replace('[', ''):
+                nextId = nextId.replace('[', '')
+                nextId = nextId.replace(']', '')
+
+            nextId = nextId.replace('\'', '')
             nextCaseId = nextId.split(',')
-            return  nextCaseId
+            print nextCaseId[0]
+            return nextCaseId
+
         else:
             return nextId
-#-----------------------
+    #------------分配测试-----------
     def testDistribute(self,testCase):
 
         caseType = self.analysisCaseId()
 
         if caseType == "asr":
-            asrTest.asrTest(self.caseId,testCase,self.nextCaseId,self.runTimes,self.checkNextCase)
+            asrTest.asrTest(self.caseId,testCase,self.nextCaseId,self.runTimes,self.testId)
 
-
-#-----------------------
+    #-----------测试类型------------
     def analysisCaseId(self):
 
         caseType = self.caseId.split('_')[0]
         return caseType
 
-#-----------------------
+    #-----------------------
 
+    def checkNextCase(self,runId):
+        print runId
+    #-----------------------
 
-    def checkNextCase(self,nextNum):
-        if nextNum != "":
-            print nextNum
-            print self.nextCaseId
+    def initSqlite(self):
+        import public_methods
+        public_methods.checkSql()

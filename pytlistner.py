@@ -7,14 +7,14 @@ import json
 
 
 class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
-    #----------处理post请求
+    #----------接收post请求
     def do_POST(self):
 
         datas = self.rfile.read(int(self.headers['content-length']))
         datas = urllib.unquote(datas).decode("utf-8",'ignore')
         self.action(datas)
 
-    # ----------处理get请求
+    # ----------接收get请求
     def do_GET(self):
 
         url = urllib.unquote(self.path)
@@ -25,7 +25,7 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
         mpath,margs=urllib.splitquery(url)
         self.action(margs)
 
-    # ----------处理post请求
+    # ----------提取参数------------------
     def action(self,datas):
         try:
             datas = self.getParam(datas)
@@ -48,7 +48,6 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
             print e
             self.responseError()
 
-    # ----------提取参数
     def getParam(self,params):
 
         try:

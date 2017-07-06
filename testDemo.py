@@ -33,13 +33,13 @@ def sqliteTest():
     iSql = "insert into testFrame VALUES (\""+str(strId)+"\",\""+str(strCaseId)+"\",\""+str(list)+"\");"
 
 
-    # sSql = "select nextId from testFrame where id =100004;"
-    sSql = "select id from testFrame ORDER BY id DESC limit 0,1"
+    sSql = "select nextId from testFrame where id ="+strId+";"
+    # sSql = "select id from testFrame ORDER BY id DESC limit 0,1"
     countSql = "select count(*) from testFrame;"
 
     dSql = "drop table testFrame;"
 
-    # sqliteConnect([iSql, 0])
+    sqliteConnect([iSql, 0])
     # a = sqliteConnect([sSql,0])
 
     for ida in sqliteConnect([sSql,0]):

@@ -18,8 +18,8 @@ class testFrameDistribute():
             self.getTestCase()
 
         else:
-            self.runId = message["id"]
-            self.checkNextCase(self.runId)
+            runId = message["id"]
+            self.checkNextCase(runId)
     # ------------读取测试表格-----------
     def getTestCase(self):
 
@@ -28,14 +28,14 @@ class testFrameDistribute():
 
         self.rowNum = self.testTableSheet.nrows
         nextId,testCase = self.getCase()
-        self.nextCaseId = self.getNextCaseId(nextId)
+        nextCaseId = self.getNextCaseId(nextId)
 
         sSql = "select id from testFrame ORDER BY id DESC limit 0,1"
 
         for testId in public_methods.sqliteConnect([sSql,0]):
             self.testId = testId
 
-        iSql = "insert into testFrame VALUES (\""+str(int(testId)+1)+"\",\""+str(self.caseId)+"\",\""+str(self.nextCaseId)+"\");"
+        iSql = "insert into testFrame VALUES (\""+str(int(testId)+1)+"\",\""+str(self.caseId)+"\",\""+str(nextCaseId)+"\");"
 
         public_methods.sqliteConnect([iSql,0])
 
@@ -83,7 +83,11 @@ class testFrameDistribute():
     #-----------------------
 
     def checkNextCase(self,runId):
-        print runId
+        sSql = "select nextId from testFrame where id ="+runId+";"
+        # public_methods.sqliteConnect([sSql,0])
+        for nextId in public_methods.sqliteConnect([sSql,0]):
+            print nextId[0]
+        self.getNextCaseId(nextId)
     #-----------------------
 
     def initSqlite(self):

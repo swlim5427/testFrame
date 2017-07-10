@@ -28,18 +28,30 @@ def sqliteTest():
     strId = "100004"
     strCaseId = "asr_1"
     list = ["asr_2","asr_3","asr_4"]
-
-    cSql = "create table testFrame (id text,caseId text,nextId text);"
-    iSql = "insert into testFrame VALUES (\""+str(strId)+"\",\""+str(strCaseId)+"\",\""+str(list)+"\");"
+    count = "10"
 
 
-    sSql = "select nextId from testFrame where id ="+strId+";"
-    # sSql = "select id from testFrame ORDER BY id DESC limit 0,1"
+    cSql = "create table testFrame (id text,caseId text,nextId text,count text);"
+    ctr = sqliteConnect([cSql, 0])
+
+    if  ctr == False:
+        print "1"
+        # dSql = "drop table testFrame;"
+        # sqliteConnect([dSql, 0])
+        # cSql = "create table testFrame (id text,caseId text,nextId text,count text);"
+        # sqliteConnect([cSql, 0])
+
+    # iSql = "insert into testFrame VALUES (\""+str(strId)+"\",\""+str(strCaseId)+"\",\""+str(list)+"\",\""+str(count)+"\");"
+    #     iSql = "insert into testFrame VALUES (\"100000\",\"\",\"\",\"\");"
+    #     sqliteConnect([iSql, 0])
+
+    iSql2 = "insert into testFrame VALUES (\"1000001\",\"\",\"\",\"\");"
+    # sSql = "select nextId from testFrame where id ="+strId+";"
+    # sSql = "select name from sqlite_master where type = 'table';"
+    sSql = "select id from testFrame ORDER BY id DESC limit 0,1"
     countSql = "select count(*) from testFrame;"
-
+    sqliteConnect([iSql2, 0])
     dSql = "drop table testFrame;"
-
-    sqliteConnect([iSql, 0])
     # a = sqliteConnect([sSql,0])
 
     for ida in sqliteConnect([sSql,0]):

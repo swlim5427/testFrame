@@ -9,7 +9,7 @@ class testFrameDistribute():
     #-----------------------
     def __init__(self,message):
         self.tableName = r"./testcase/"+message["tableName"]
-        self.caseId = message["caseId"]
+        caseId = message["caseId"]
         self.runTimes = message["times"]
         self.url = message["url"]
         self.haveNext = 0
@@ -35,7 +35,7 @@ class testFrameDistribute():
         for testId in public_methods.sqliteConnect([sSql,0]):
             self.testId = testId
 
-        iSql = "insert into testFrame VALUES (\""+str(int(testId)+1)+"\",\""+str(self.caseId)+"\",\""+str(nextCaseId)+"\");"
+        iSql = "insert into testFrame VALUES (\""+str(int(testId)+1)+"\",\""+str(self.caseId)+"\",\""+str(nextCaseId)+"\",\""+str(self.runTimes)+"\");"
 
         public_methods.sqliteConnect([iSql,0])
 
@@ -77,7 +77,7 @@ class testFrameDistribute():
     #-----------测试类型------------
     def analysisCaseId(self):
 
-        caseType = self.caseId.split('_')[0]
+        caseType = self.caseId.split('_')[0] #---caseID第一位
         return caseType
 
     #-----------------------
@@ -87,7 +87,9 @@ class testFrameDistribute():
         # public_methods.sqliteConnect([sSql,0])
         for nextId in public_methods.sqliteConnect([sSql,0]):
             print nextId[0]
-        self.getNextCaseId(nextId)
+            nextCaseId = self.getNextCaseId(nextId[0])
+            caseId = nextCaseId[0]  #执行测试的业务逻辑
+
     #-----------------------
 
     def initSqlite(self):

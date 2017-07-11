@@ -4,6 +4,7 @@ import io
 import urllib
 from commonFunc import *
 import json
+import threading
 
 
 class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
@@ -42,7 +43,9 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'text/html')
             self.end_headers()
 
-            test_frame_distribute.testFrameDistribute(param)
+            public_methods.createThreading(param)
+
+            # test_frame_distribute.testFrameDistribute(param)
 
         except Exception as e:
             print e

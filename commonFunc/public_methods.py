@@ -1,5 +1,6 @@
 import threading
 import sqlite3
+import test_frame_distribute
 
 def sqliteConnect(sql):
     conn = sqlite3.connect('test.db')
@@ -37,3 +38,15 @@ def checkTable():
 def initTable():
     dSql = "delete from testFrame"
     sqliteConnect([dSql,1])
+
+
+def createThreading(param):
+    print "new threading"
+    threading._start_new_thread(target=test_frame_distribute.testFrameDistribute,args=(param))
+    # nThreading.start()
+    
+
+    # test_frame_distribute.testFrameDistribute(param)
+def stopThreading():
+    threading._shutdown()
+    print "1"

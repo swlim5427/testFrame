@@ -1,3 +1,37 @@
+# -*- coding: utf-8 -*-
+
+# from twisted.internet import defer, reactor
+# from twisted.internet.threads import deferToThread
+#
+# import functools
+# import time
+#
+#
+# # 耗时操作 这是一个同步阻塞函数
+# def mySleep(timeout):
+#     for i  in range(timeout):
+#
+#
+#     # 返回值相当于加进了callback里
+#         print i
+#         time.sleep(1)
+#     # return 3
+#
+#
+# def say(result):
+#     print "耗时操作结束了, 并把它返回的结果给我了", result
+#
+#
+# # 用functools.partial包装一下, 传递参数进去
+# cb = functools.partial(mySleep, 10)
+# d = deferToThread(cb)
+# # d.addCallback(say)
+#
+# print "你还没有结束我就执行了, 哈哈"
+#
+# reactor.run()
+
+
 import requests
 import json
 import sys
@@ -25,7 +59,7 @@ def httpGet():
 
 def sqliteTest():
 
-    strId = "100004"
+    strId = "1000002"
     strCaseId = "asr_1"
     list = ["asr_2","asr_3","asr_4"]
     count = "10"
@@ -45,19 +79,26 @@ def sqliteTest():
     #     iSql = "insert into testFrame VALUES (\"100000\",\"\",\"\",\"\");"
     #     sqliteConnect([iSql, 0])
 
-    iSql2 = "insert into testFrame VALUES (\"1000001\",\"\",\"\",\"\");"
-    # sSql = "select nextId from testFrame where id ="+strId+";"
+    # iSql2 = "insert into testFrame VALUES (\"1000001\",\"\",\"\",\"\");"
+    sSql = "select id from testFrame where id ="+strId+";"
     # sSql = "select name from sqlite_master where type = 'table';"
-    sSql = "select id from testFrame ORDER BY id DESC limit 0,1"
+    # sSql = "select id from testFrame ORDER BY id DESC limit 0,1"
     countSql = "select count(*) from testFrame;"
-    sqliteConnect([iSql2, 0])
+    # sqliteConnect([iSql2, 0])
     dSql = "drop table testFrame;"
     # a = sqliteConnect([sSql,0])
 
-    for ida in sqliteConnect([sSql,0]):
-        print ida[0]
+    try:
 
-    getNextCaseId(ida[0])
+        for ida in sqliteConnect([sSql,0]):
+            print ida[0]
+
+        getNextCaseId(ida[0])
+
+    except Exception as e:
+
+        print e
+
 
 def sqliteConnect(sql):
 

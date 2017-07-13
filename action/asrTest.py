@@ -1,4 +1,4 @@
-import os
+from commonFunc import *
 
 
 class asrTest():
@@ -24,3 +24,8 @@ class asrTest():
 
         except Exception as e:
             print e
+
+    def doTest(self):
+        print "do test"
+        public_methods.callback()
+

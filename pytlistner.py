@@ -4,7 +4,6 @@ import io
 import urllib
 from commonFunc import *
 import json
-import threading
 
 
 class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
@@ -29,7 +28,7 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
     # ----------提取参数------------------
     def action(self,datas):
         try:
-            datas = self.getParam(datas)
+            datas = self.getParam(datas) #提取param
             param = json.loads(datas)
 
             enc = "UTF-8"
@@ -43,9 +42,9 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'text/html')
             self.end_headers()
 
-            public_methods.createThreading(param)
-
-            # test_frame_distribute.testFrameDistribute(param)
+            t =  public_methods.createThreading(param)
+            print t
+            t.start()
 
         except Exception as e:
             print e
@@ -59,7 +58,9 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
             else:
                 if "+" in params:
                     p = params.replace("+","")
-                param = p.split('=')[1]
+                    param = p.split('=')[1]
+                else:
+                    param = params.split('=')[1]
                 return param
         except:
             self.responseError()
@@ -74,11 +75,10 @@ class CustomHTTPServer(HTTPServer):
     def __init__(self, host, port):
         HTTPServer.__init__(self, (host, port), CustomHTTPRequestHandler)
 
-def main():
+if __name__ == '__main__':
+
     server = CustomHTTPServer('172.21.10.227', 9989)
     print "service start"
+
     server.serve_forever()
 
-
-if __name__ == '__main__':
-    main()

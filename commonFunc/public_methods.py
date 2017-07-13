@@ -41,12 +41,17 @@ def initTable():
 
 
 def createThreading(param):
-    print "new threading"
-    threading._start_new_thread(target=test_frame_distribute.testFrameDistribute,args=(param))
-    # nThreading.start()
-    
 
-    # test_frame_distribute.testFrameDistribute(param)
+    p = []
+    p.append(param)
+    print "new threading"
+    nThreading = threading.Thread(target=test_frame_distribute.testFrameDistribute,args=(p))
+
+    return nThreading
+
 def stopThreading():
     threading._shutdown()
     print "1"
+
+def callback():
+    print "callback"

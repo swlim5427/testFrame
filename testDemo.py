@@ -66,10 +66,11 @@ def sqliteTest():
 
 
     cSql = "create table testFrame (id text,caseId text,nextId text,count text);"
-    ctr = sqliteConnect([cSql, 0])
-
-    if  ctr == False:
-        print "1"
+    sqliteConnect([cSql, 0])
+    # ctr = sqliteConnect([cSql, 0])
+    #
+    # if  ctr == False:
+    #     print "1"
         # dSql = "drop table testFrame;"
         # sqliteConnect([dSql, 0])
         # cSql = "create table testFrame (id text,caseId text,nextId text,count text);"
@@ -79,7 +80,7 @@ def sqliteTest():
     #     iSql = "insert into testFrame VALUES (\"100000\",\"\",\"\",\"\");"
     #     sqliteConnect([iSql, 0])
 
-    # iSql2 = "insert into testFrame VALUES (\"1000001\",\"\",\"\",\"\");"
+    iSql2 = "insert into testFrame VALUES (\"1000001\",\"\",\"\",\"\");"
     sSql = "select id from testFrame where id ="+strId+";"
     # sSql = "select name from sqlite_master where type = 'table';"
     # sSql = "select id from testFrame ORDER BY id DESC limit 0,1"
@@ -88,12 +89,19 @@ def sqliteTest():
     dSql = "drop table testFrame;"
     # a = sqliteConnect([sSql,0])
 
+
     try:
 
-        for ida in sqliteConnect([sSql,0]):
-            print ida[0]
+        for ida in sqliteConnect([countSql,0]):
+            lineCount = ida[0]
 
-        getNextCaseId(ida[0])
+        if lineCount == 0:
+            sqliteConnect([iSql2, 0])
+        else:
+            dSql = "drop table testFrame;"
+            sqliteConnect([dSql, 0])
+
+        # getNextCaseId(ida[0])
 
     except Exception as e:
 

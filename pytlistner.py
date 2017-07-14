@@ -43,7 +43,6 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
             t =  public_methods.createThreading(param)
-            print t
             t.start()
 
         except Exception as e:
@@ -77,6 +76,7 @@ class CustomHTTPServer(HTTPServer):
 
 if __name__ == '__main__':
 
+    public_methods.initTable()
     server = CustomHTTPServer('172.21.10.227', 9989)
     print "service start"
 

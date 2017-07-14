@@ -1,31 +1,35 @@
-from commonFunc import *
+# coding=utf-8
+import commonFunc
 
 
 class asrTest():
 
-    def __init__(self,caseId,testCase,nextCaseId,runTimes,testId):
+    def __init__(self,message,testCase,testId,data):
 
-        self.caseId = caseId
+        self.message = message
+        self.caseId = message["caseId"]
         self.testCase = testCase
-        self.nextCaseId = nextCaseId
-        self.runTimes = runTimes
+        self.data = data
+
+        # self.nextCaseId = message["nextCaseId"]
+        # self.runTimes = message["runTimes"]
         self.testId = testId
-        self.checkTestCase()
+
+        if  self.checkTestCase() == 1:
+            commonFunc.public_methods.callback(self.message,testId)
+        else:
+            return
 
     def checkTestCase(self):
 
         try:
-            print self.caseId
-            print self.testCase
-            print self.nextCaseId
-            print self.runTimes
-            # os.system("testDemo.py")
-            # execfile("testDemo.py")
+            self.doTest()
 
         except Exception as e:
             print e
+            return 0
+        return 1
 
     def doTest(self):
         print "do test"
-        public_methods.callback()
-
+        # public_methods.callback()

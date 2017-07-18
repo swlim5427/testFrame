@@ -1,8 +1,8 @@
 # coding=utf-8
 import commonFunc
-import time
 import threading
 import json
+import os
 
 class asrTest():
 
@@ -36,5 +36,13 @@ class asrTest():
         return 1
 
     def doTest(self):
-        time.sleep(1)
+
+        tools = "HawkDecoder"
+        pwd = os.getcwd()
+        os.chdir('/home/pachiratest/testCase/path1')
+        # print os.system('ls')
+        os.system('chmod +x ' + tools)
+        os.system('./' + tools)
+
         print self.caseId,"do test","-----------",threading.current_thread().getName()
+        os.chdir(pwd)

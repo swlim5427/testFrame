@@ -77,7 +77,7 @@ class CustomHTTPServer(HTTPServer):
 if __name__ == '__main__':
 
     public_methods.initTable()
-    server = CustomHTTPServer('172.21.10.227', 9989)
+    server = CustomHTTPServer('172.21.13.122', 9989)
     print "service start"
 
     server.serve_forever()

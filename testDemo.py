@@ -1,36 +1,4 @@
-# -*- coding: utf-8 -*-
-
-# from twisted.internet import defer, reactor
-# from twisted.internet.threads import deferToThread
-#
-# import functools
-# import time
-#
-#
-# # 耗时操作 这是一个同步阻塞函数
-# def mySleep(timeout):
-#     for i  in range(timeout):
-#
-#
-#     # 返回值相当于加进了callback里
-#         print i
-#         time.sleep(1)
-#     # return 3
-#
-#
-# def say(result):
-#     print "耗时操作结束了, 并把它返回的结果给我了", result
-#
-#
-# # 用functools.partial包装一下, 传递参数进去
-# cb = functools.partial(mySleep, 10)
-# d = deferToThread(cb)
-# # d.addCallback(say)
-#
-# print "你还没有结束我就执行了, 哈哈"
-#
-# reactor.run()
-
+# coding=utf-8
 
 import requests
 import json
@@ -38,24 +6,54 @@ import sys
 import io
 from io import StringIO
 import sqlite3
+import urllib
+import time
+import datetime
+
+def getDateTime():
+    dateTime = datetime.datetime.now()
+    t = str(dateTime.year)+str(dateTime.month)+str(dateTime.day)+str(dateTime.hour)+str(dateTime.minute)+str(dateTime.second)
+    # return t
+
+def downLoad():
+
+    def aa(a,b,c):
+        per = 100.0 * a * b / c
+        if per >100:
+            per = 100
+        # print '%.2f%%' % per
+        elif per == 100:
+            print "over"
+
+    url = "http://172.22.144.204:8080/view/TSP/job/TSPDecoder/572/artifact/package/linux/libEngine.a"
+    urllib.urlretrieve(url,"22",aa)
+
+    # r = requests.get('http://172.22.144.204:8080/view/TSP/job/TSPDecoder/572/artifact/package/linux/libEngine.a',stream = True)
+
+
+def listTest():
+    list = ['asr_5', ' asr_6', ' asr_7', ' asr_8']
+    print list
 
 def httpGet():
 
     print "dddddddddddddddddd"
 
-    ip = "172.21.10.227:9989/"
-    url = "http://"+ip
+    # ip = "172.21.13.122:9989/"
+    ip = "192.168.128.54:9989/"
+    url = "http://" + ip
     s = requests.session()
-    headers ={"Content-type": "application/x-protobuf;charset=utf-8","Connection":"Keep-Alive"}
+    headers = {"Content-type": "application/x-protobuf;charset=utf-8", "Connection": "Keep-Alive"}
     # s.headers.update(headers)
-    print s.get(url)
-
-    mainPostMessage = {"caseId":"0","times":0,"tableName":"","url":"","id":"101"}
-    message ={"param":json.dumps(mainPostMessage)}
+    mainPostMessage = {"caseId": "asr_1", "version": "2.4.0", "times": 5, "tableName": "testCase.xlsx",
+                       "url": "http://172.22.144.204:8080/view/TSP/job/TSPDecoder/572/artifact/package/linux/HawkDecoder"}
+    # mainPostMessage = {"caseId":"asr_1","times":2,"tableName":"","url":"","id":""}
+    message = {"param": json.dumps(mainPostMessage)}
     print message
 
-    postMessage = s.post(url,data=message)
+    postMessage = s.post(url, data=message)
     print postMessage
+
 
 def sqliteTest():
 
@@ -141,9 +139,30 @@ def getNextCaseId(nextId):
     else:
         return nextId
 
+def openExcel():
+    import xlrd
+    testTable = xlrd.open_workbook("testcase/testCase.xlsx")
+    testTableSheet = testTable.sheets()[0]
 
-sqliteTest()
+    rowNum = testTableSheet.nrows
 
+    for i in range(rowNum):
+        if testTableSheet.cell(i, 0).value == "asr_1":
+            tValue = testTableSheet.cell(i, 2).value
+            testCase = json.loads(tValue)
+            nextId = testTableSheet.cell(i, 5).value
+            data = testTableSheet.cell(i, 3).value
+
+    print  tValue
+    print testCase
+    print nextId
+    print data
+# t = getDateTime()
+# downLoad()
+# sqliteTest()
+# listTest()
+httpGet()
+# openExcel()
 # if __name__ == '__main__':
 #     # httpGet()
 #

@@ -1,8 +1,10 @@
 # coding=utf-8
+
 import threading
 import sqlite3
 import test_frame_distribute
-import time
+import datetime
+
 
 def sqliteConnect(sql):
     conn = sqlite3.connect('testFrame.db')
@@ -20,10 +22,11 @@ def sqliteConnect(sql):
         except Exception as e:
             print e
             return False
-
+# --------------------------------------------------------------------------
 def initTable():
 
-    cSql = "create table testFrame (id text,caseId text,nextId text,count text,times text,nowCaseId text,leftNextId text);"
+    cSql = "create table testFrame (" \
+           "id text,caseId text,nextId text,count text,times text,nowCaseId text,leftNextId text);"
     # id:执行id
     # caseId:启动测试的用例id
     # nextid:本次除caseId外所需要执行的caseId
@@ -34,7 +37,8 @@ def initTable():
     sqliteConnect([cSql, 0])
 
     countSql = "select count(*) from testFrame;"
-    iSql = "insert into testFrame VALUES (\"1000001\",\"\",\"\",\"\",\"\",\"\",\"\");"
+    iSql = "insert into testFrame VALUES (" \
+           "\"1000001\",\"\",\"\",\"\",\"\",\"\",\"\");"
 
     try:
         for ida in sqliteConnect([countSql,0]):
@@ -50,7 +54,7 @@ def initTable():
 
     except Exception as e:
         print e
-
+# --------------------------------------------------------------------------
 def createThreading(param):
 
     p = []
@@ -60,17 +64,41 @@ def createThreading(param):
 
     return nThreading
 
-def stopThreading():
-    threading._shutdown()
-    print "1"
 
-def callback(message,testId):
+# --------------------------------------------------------------------------
+def getNextCaseId(nextId):
 
-    sSql = "select * from testFrame where id ="+str(testId)+";"
-    for r in sqliteConnect([sSql,0]):
-        nowCaseId = r[5]
+    if nextId != 0:
+        if nextId.replace('[', ''):
+            nextId = nextId.replace('[', '')
+            nextId = nextId.replace(']', '')
+        nextId = nextId.replace('u\'', '')
+        nextId = nextId.replace('\'', '')
+        nextId = nextId.replace(' ', '')
+        nextCaseId = nextId.split(',')
+        return nextCaseId
 
+    else:
+       return nextId
 
-    for i in range(1):
-        # t = threading.current_thread().getName()
-        print "callback:  ",message,"-----",i+1,"-----",testId,"------"
+# --------------------------------------------------------------------------
+
+def downLoad(url,path):
+
+    import urllib
+
+    def reporthook(a,b,c):
+        per = 100.0 * a * b / c
+        if per >100:
+            per = 100
+        # print '%.2f%%' % per
+        elif per == 100:
+            return per
+
+    urllib.urlretrieve(url,path,reporthook)
+# --------------------------------------------------------------------------
+
+def getDateTime():
+    dateTime = datetime.datetime.now()
+    t = str(dateTime.year)+str(dateTime.month)+str(dateTime.day)+str(dateTime.hour)+str(dateTime.minute)+str(dateTime.second)
+    return t

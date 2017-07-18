@@ -2,10 +2,10 @@
 
 import public_methods
 import test_frame_distribute
+import threading
 
 
 def chenckTest(message,testId):
-
 
     sSql = "select * from testFrame where id ="+str(testId)+";"
     for r in public_methods.sqliteConnect([sSql,0]):
@@ -15,9 +15,9 @@ def chenckTest(message,testId):
         times = r[4]
         leftNextId = public_methods.getNextCaseId(r[6])
 
-    # 剩余caseId 为 0 时进入下个循环,count = times 时结束测试
+    # 剩余caseId 为 0 时进入下个循环,count = times 并且 leftNextId 为空 时结束测试
 
-    if count != times:
+    if count != times or leftNextId != [u'']:
 
         if leftNextId != [u'']:
 
@@ -26,17 +26,12 @@ def chenckTest(message,testId):
 
             uSql = "update testFrame SET nowCaseId ="+"\""+str(uNowCaseId)+"\",leftNextId ="+"\""+str(
                 leftNextId)+"\" where id =" + str(testId) + ";"
+            # print "test:", count, "========", times, "---nowCaseId", uNowCaseId
 
-            print "test:", count, "========", times, "---nowCaseId", uNowCaseId
-                # sqliteConnect([uSql,1])
-                #
-                # message.setdefault('id',testId)
-                # message.update({'caseId':uNowCaseId})
         else:
 
             uNowCaseId = caseId
             leftNextId = nextId
-            print "test:", count, "========", times, "---nowCaseId", uNowCaseId
             uCount = int(count) + 1
 
             uSql = "update testFrame SET nowCaseId =" + "\""+str(uNowCaseId)+"\",leftNextId =" + "\"" + str(
@@ -47,7 +42,7 @@ def chenckTest(message,testId):
         message.setdefault('id', testId)
         message.update({'caseId': uNowCaseId})
 
-        print "test:", count, "========", times,"---nowCaseId",uNowCaseId
         test_frame_distribute.testFrameDistribute(message)
     else:
-        print "test all overs"
+
+        print "test overs -----------",threading.current_thread().getName()

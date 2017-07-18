@@ -1,6 +1,8 @@
 # coding=utf-8
 import commonFunc
-
+import time
+import threading
+import json
 
 class asrTest():
 
@@ -9,14 +11,17 @@ class asrTest():
         self.message = message
         self.caseId = message["caseId"]
         self.testCase = testCase
-        self.data = data
+        self.data = json.loads(data)
 
-        # self.nextCaseId = message["nextCaseId"]
-        # self.runTimes = message["runTimes"]
         self.testId = testId
 
+        if message["url"] != "":
+            # folder = str(self.caseId)+str(message["version"])+str(testId)+str(commonFunc.public_methods.getDateTime)
+            toolPath  = self.data["config"].split("config")[0]
+            commonFunc.public_methods.downLoad(message["url"],str(toolPath)+"HawkDecoder")
+
         if  self.checkTestCase() == 1:
-            commonFunc.public_methods.callback(self.message,testId)
+            commonFunc.check_test.chenckTest(self.message,testId)
         else:
             return
 
@@ -31,5 +36,5 @@ class asrTest():
         return 1
 
     def doTest(self):
-        print "do test"
-        # public_methods.callback()
+        time.sleep(1)
+        print self.caseId,"do test","-----------",threading.current_thread().getName()

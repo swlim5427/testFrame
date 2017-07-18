@@ -17,8 +17,8 @@ class asrTest():
 
         if message["url"] != "":
             # folder = str(self.caseId)+str(message["version"])+str(testId)+str(commonFunc.public_methods.getDateTime)
-            toolPath  = self.data["config"].split("config")[0]
-            commonFunc.public_methods.downLoad(message["url"],str(toolPath)+"HawkDecoder")
+            self.toolPath  = self.data["config"].split("config")[0]
+            commonFunc.public_methods.downLoad(message["url"],str(self.toolPath)+"HawkDecoder")
 
         if  self.checkTestCase() == 1:
             commonFunc.check_test.chenckTest(self.message,testId)
@@ -39,10 +39,10 @@ class asrTest():
 
         tools = "HawkDecoder"
         pwd = os.getcwd()
-        os.chdir('/home/pachiratest/testCase/path1')
+        os.chdir(self.toolPath)
         # print os.system('ls')
         os.system('chmod +x ' + tools)
         os.system('./' + tools)
 
         print self.caseId,"do test","-----------",threading.current_thread().getName()
-        os.chdir(pwd)
+        os.chdir(pwd) #切换回原始路径

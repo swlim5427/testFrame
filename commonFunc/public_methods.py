@@ -91,11 +91,13 @@ def downLoad(url,path):
         per = 100.0 * a * b / c
         if per >100:
             per = 100
+            r = per
         # print '%.2f%%' % per
         elif per == 100:
-            return per
+            r = per
 
     urllib.urlretrieve(url,path,reporthook)
+
 # --------------------------------------------------------------------------
 
 def getDateTime():

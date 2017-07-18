@@ -39,8 +39,8 @@ def httpGet():
 
     print "dddddddddddddddddd"
 
-    # ip = "172.21.13.122:9989/"
-    ip = "192.168.128.54:9989/"
+    ip = "192.168.170.128:9989/"
+    # ip = "192.168.128.54:9989/"
     url = "http://" + ip
     s = requests.session()
     headers = {"Content-type": "application/x-protobuf;charset=utf-8", "Connection": "Keep-Alive"}

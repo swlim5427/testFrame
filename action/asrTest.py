@@ -46,4 +46,5 @@ class asrTest():
 
         print self.caseId,"do test","-----------",threading.current_thread().getName()
         os.chdir(pwd) #切换回原始路径
-        print "aa"
+        print "cc"
+        print "bb"

@@ -56,7 +56,7 @@ class asrTest():
 
         print self.caseId, "do test----",self.testId, "-----", threading.current_thread().getName()
 
-        doshell =  "./"+str(self.testTools)+" --config "+str(self.decoderConfig)+" --filelist "+str(self.caseList)+" --log "+str(sResult)+" --sleep 2"
+        doshell =  "./"+str(self.testTools)+" --config "+str(self.decoderConfig)+" --filelist "+str(self.caseList)+" --log "+str(sResult)+" --sleep 2 &"
 
         os.system(doshell)
 

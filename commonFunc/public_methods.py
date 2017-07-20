@@ -100,7 +100,12 @@ def downLoad(url,path):
 
 # --------------------------------------------------------------------------
 
-def getDateTime():
+def getDateTime(fileName,NowTime):
+
     dateTime = datetime.datetime.now()
-    t = str(dateTime.year)+str(dateTime.month)+str(dateTime.day)+str(dateTime.hour)+str(dateTime.minute)+str(dateTime.second)
-    return t
+
+    if fileName == 1 and NowTime == 0:
+        fileName = str(dateTime.year)+str(dateTime.month)+str(dateTime.day)+str(dateTime.hour)+str(dateTime.minute)+str(dateTime.second)
+        return fileName
+    else:
+        return NowTime

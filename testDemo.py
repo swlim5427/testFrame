@@ -157,15 +157,19 @@ def openExcel():
     print testCase
     print nextId
     print data
+
+
+
+def doShell():
+    import os
+    s = os.system('cd /home/pachiratest/testCase/path1')
+    print s
+
+doShell()
+
 # t = getDateTime()
 # downLoad()
 # sqliteTest()
 # listTest()
-httpGet()
+# httpGet()
 # openExcel()
-# if __name__ == '__main__':
-#     # httpGet()
-#
-#     print "start"
-#
-#     sqliteTest()

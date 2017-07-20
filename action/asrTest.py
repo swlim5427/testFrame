@@ -10,7 +10,7 @@ class asrTest():
 
         self.message = message
         self.caseId = message["caseId"]
-        self.testCase = testCase
+        self.testCase = json.loads(testCase)
         self.data = json.loads(data)
 
         self.testId = testId
@@ -27,6 +27,12 @@ class asrTest():
 
     def checkTestCase(self):
 
+        self.caseList = self.testCase["caseList"]
+        self.answerList = self.testCase["answer"]
+        self.decoderConfig = self.testCase["config"]
+        self.asrResult = self.toolPath + "/ar/" + commonFunc.public_methods.getDateTime(1,0)
+        self.asrLog = self.toolPath + "/ar/" + commonFunc.public_methods.getDateTime(1,0) + ".log"
+
         try:
             self.doTest()
 
@@ -40,11 +46,13 @@ class asrTest():
         tools = "HawkDecoder"
         pwd = os.getcwd()
         os.chdir(self.toolPath)
-        # print os.system('ls')
-        os.system('chmod +x ' + tools)
-        os.system('./' + tools)
 
-        print self.caseId,"do test","-----------",threading.current_thread().getName()
+        os.system('chmod +x ' + tools)
+
+        print self.caseId, "do test", "-----------", threading.current_thread().getName()
+
+        os.system('./'+tools+' --config '+self.decoderConfig+
+                  " --filelist "+self.caseList+" --log "+self.asrResult+" --sleep 2 >>"+self.asrLog)
+
+
         os.chdir(pwd) #切换回原始路径
-        print "cc"
-        print "bb"

@@ -4,6 +4,7 @@ import json
 from action import *
 import public_methods
 import logging
+import os
 
 
 class testFrameDistribute():
@@ -11,7 +12,8 @@ class testFrameDistribute():
     def __init__(self,message):
 
         self.message = message
-        self.tableName = r"./testcase/"+message["tableName"]
+        tablePath = os.getcwd()
+        self.tableName = tablePath+"/testcase/"+message["tableName"]
         self.caseId = message["caseId"]
         self.runTimes = message["times"]
         # self.version = message["version"]

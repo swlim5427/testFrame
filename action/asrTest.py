@@ -10,14 +10,14 @@ class asrTest():
 
         self.message = message
         self.caseId = message["caseId"]
-        self.testCase = json.loads(testCase)
-        self.data = json.loads(data)
+        self.testCase = testCase
+        self.data = data
 
         self.testId = testId
 
         if message["url"] != "":
             # folder = str(self.caseId)+str(message["version"])+str(testId)+str(commonFunc.public_methods.getDateTime)
-            self.toolPath  = self.data["config"].split("config")[0]
+            self.toolPath  = self.data["config"].split("decoder.conf")[0]
             commonFunc.public_methods.downLoad(message["url"],str(self.toolPath)+"HawkDecoder")
 
         if  self.checkTestCase() == 1:
@@ -27,11 +27,11 @@ class asrTest():
 
     def checkTestCase(self):
 
-        self.caseList = self.testCase["caseList"]
+        self.caseList = self.testCase["caselist"]
         self.answerList = self.testCase["answer"]
-        self.decoderConfig = self.testCase["config"]
-        self.asrResult = self.toolPath + "/ar/" + commonFunc.public_methods.getDateTime(1,0)
-        self.asrLog = self.toolPath + "/ar/" + commonFunc.public_methods.getDateTime(1,0) + ".log"
+        self.decoderConfig = self.data["config"]
+        self.asrResult = self.toolPath + "ar/" + commonFunc.public_methods.getDateTime(1,0)
+        self.asrLog = self.toolPath + "ar/" + commonFunc.public_methods.getDateTime(1,0) + ".log"
 
         try:
             self.doTest()

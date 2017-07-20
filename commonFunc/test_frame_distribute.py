@@ -35,7 +35,8 @@ class testFrameDistribute():
                 tValue = self.testTableSheet.cell(i,2).value
                 self.testCase = json.loads(tValue)
                 nextId = self.testTableSheet.cell(i,5).value
-                self.data = self.testTableSheet.cell(i,3).value
+                dValue = self.testTableSheet.cell(i,3).value
+                self.data = json.loads(dValue)
 
         nextCaseId = public_methods.getNextCaseId(nextId)
 

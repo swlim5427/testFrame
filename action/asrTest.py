@@ -52,14 +52,13 @@ class asrTest():
         os.chdir(casePath)
 
         os.system('chmod +x ' + self.testTools)
+        sResult = str(resultPath)+"/"+str(self.runTime)
 
         print self.caseId, "do test----",self.testId, "-----", threading.current_thread().getName()
 
-        a =  "./" + self.testTools + " --config " + self.decoderConfig +" --filelist " + self.caseList + " --log " + resultPath + " --sleep 2"
-        print a
+        doshell =  "./"+str(self.testTools)+" --config "+str(self.decoderConfig)+" --filelist "+str(self.caseList)+" --log "+str(sResult)+" --sleep 2"
 
-        os.system("./"+self.testTools+" --config "+self.decoderConfig+
-                  " --filelist "+self.caseList+" --log "+resultPath+" --sleep 2")
+        os.system(doshell)
 
         os.chdir(pwd) #切换回原始路径
         time.sleep(1)

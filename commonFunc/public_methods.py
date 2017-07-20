@@ -130,10 +130,15 @@ def getDateTime(fileName,NowTime):
 def mkdir(testPath,testFolder):
 
     os.chdir(testPath)
-    os.makedirs(testFolder)
-    os.chdir(testFolder)
-    os.makedirs("result")
-    os.makedirs("log")
-    result = testPath,testFolder,"/","result"
-    log = testPath,testFolder,"/","log"
+    try:
+        os.makedirs(testFolder)
+        os.chdir(testFolder)
+        os.makedirs("result")
+        os.makedirs("log")
+
+    except Exception as e:
+        print e
+
+    result = str(testPath)+str(testFolder)+"/"+"result"
+    log = str(testPath)+str(testFolder)+"/"+"log"
     return result,log

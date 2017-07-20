@@ -17,12 +17,15 @@ def chenckTest(message,testId):
 
     # 剩余caseId 为 0 时进入下个循环,count = times 并且 leftNextId 为空 时结束测试
 
-    if count != times or leftNextId != [u'']:
+    if count != times or leftNextId != [u'0']:
 
-        if leftNextId != [u'']:
+        if leftNextId != [u'0']:
 
             uNowCaseId = leftNextId[0]
             del leftNextId[0]
+
+            if len(leftNextId) == 0:
+                leftNextId = [0]
 
             uSql = "update testFrame SET nowCaseId ="+"\""+str(uNowCaseId)+"\",leftNextId ="+"\""+str(
                 leftNextId)+"\" where id =" + str(testId) + ";"

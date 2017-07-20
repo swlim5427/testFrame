@@ -2,57 +2,64 @@
 import commonFunc
 import threading
 import json
+import time
 import os
 
 class asrTest():
 
-    def __init__(self,message,testCase,testId,data):
+    def __init__(self,message,testCase,testId,data,testTools):
 
         self.message = message
         self.caseId = message["caseId"]
+        self.url = message["url"]
         self.testCase = testCase
         self.data = data
-
         self.testId = testId
-
-        if message["url"] != "":
-            # folder = str(self.caseId)+str(message["version"])+str(testId)+str(commonFunc.public_methods.getDateTime)
-            self.toolPath  = self.data["config"].split("decoder.conf")[0]
-            commonFunc.public_methods.downLoad(message["url"],str(self.toolPath)+"HawkDecoder")
-
-        if  self.checkTestCase() == 1:
-            commonFunc.check_test.chenckTest(self.message,testId)
-        else:
-            return
-
-    def checkTestCase(self):
+        self.testTools = testTools
 
         self.caseList = self.testCase["caselist"]
         self.answerList = self.testCase["answer"]
         self.decoderConfig = self.data["config"]
-        self.asrResult = self.toolPath + "ar/" + commonFunc.public_methods.getDateTime(1,0)
-        self.asrLog = self.toolPath + "ar/" + commonFunc.public_methods.getDateTime(1,0) + ".log"
+        self.runTime = commonFunc.public_methods.getDateTime(1,0)
 
-        try:
-            self.doTest()
+        self.testPath = self.data["config"].split("decoder.conf")[0]
+        #
+        # self.asrResult = self.testPath,self.caseId+"-",self.testId,"/result/",self.runTime
+        # self.asrLog = self.testPath,"log/",self.runTime,".log"
 
-        except Exception as e:
-            print e
-            return 0
-        return 1
+
+
+
+        self.doTest()
+
+        commonFunc.check_test.chenckTest(self.message,testId)
+
 
     def doTest(self):
 
-        tools = "HawkDecoder"
         pwd = os.getcwd()
-        os.chdir(self.toolPath)
+        testFoler = self.caseId+"-" + self.testId
+        resultPath,logPath = commonFunc.public_methods.mkdir(self.testPath,testFoler)
 
-        os.system('chmod +x ' + tools)
+        casePath = self.testPath + testFoler
+        os.chdir(pwd)
 
-        print self.caseId, "do test", "-----------", threading.current_thread().getName()
 
-        os.system('./'+tools+' --config '+self.decoderConfig+
-                  " --filelist "+self.caseList+" --log "+self.asrResult+" --sleep 2 >>"+self.asrLog)
+        if self.url != "":
 
+            commonFunc.public_methods.downLoad(self.url, casePath+"/"+self.testTools)
+
+        os.chdir(casePath)
+
+        os.system('chmod +x ' + self.testTools)
+
+        print self.caseId, "do test----",self.testId, "-----", threading.current_thread().getName()
+
+        a =  "./" + self.testTools + " --config " + self.decoderConfig +" --filelist " + self.caseList + " --log " + resultPath + " --sleep 2"
+        print a
+
+        os.system("./"+self.testTools+" --config "+self.decoderConfig+
+                  " --filelist "+self.caseList+" --log "+resultPath+" --sleep 2")
 
         os.chdir(pwd) #切换回原始路径
+        time.sleep(1)

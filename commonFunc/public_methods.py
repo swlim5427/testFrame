@@ -4,7 +4,8 @@ import threading
 import sqlite3
 import test_frame_distribute
 import datetime
-
+import os
+import time
 
 def sqliteConnect(sql):
     conn = sqlite3.connect('testFrame.db')
@@ -105,7 +106,34 @@ def getDateTime(fileName,NowTime):
     dateTime = datetime.datetime.now()
 
     if fileName == 1 and NowTime == 0:
-        fileName = str(dateTime.year)+str(dateTime.month)+str(dateTime.day)+str(dateTime.hour)+str(dateTime.minute)+str(dateTime.second)
-        return fileName
+        # fileName = str(dateTime.year)+str(dateTime.month)+str(dateTime.day)+str(dateTime.hour)+str(dateTime.minute)+str(dateTime.second)
+
+        inputYear = dateTime.year
+        inputMonth = dateTime.month
+        inputDay = dateTime.day
+        inputHour = dateTime.hour
+        inputMinute = dateTime.minute
+        inputSecond = dateTime.second
+
+        mTime = dateTime.microsecond
+        imputDateTime = datetime.datetime(year=int(inputYear), month=int(inputMonth), day=int(inputDay),
+                                          hour=int(inputHour), minute=int(inputMinute), second=int(inputSecond))
+        formatTime = long(round(time.mktime(imputDateTime.timetuple())))
+
+        nowTime = long(str(formatTime) + str(mTime / 1000))
+
+        return nowTime
+
     else:
-        return NowTime
+        return dateTime
+
+def mkdir(testPath,testFolder):
+
+    os.chdir(testPath)
+    os.makedirs(testFolder)
+    os.chdir(testFolder)
+    os.makedirs("result")
+    os.makedirs("log")
+    result = testPath,testFolder,"/","result"
+    log = testPath,testFolder,"/","log"
+    return result,log

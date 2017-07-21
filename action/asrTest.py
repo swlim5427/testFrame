@@ -28,8 +28,6 @@ class asrTest():
         # self.asrLog = self.testPath,"log/",self.runTime,".log"
 
 
-
-
         self.doTest()
 
         commonFunc.check_test.chenckTest(self.message,testId)
@@ -56,9 +54,9 @@ class asrTest():
 
         print self.caseId, "do test----",self.testId, "-----", threading.current_thread().getName()
 
-        doshell =  "./"+str(self.testTools)+" --config "+str(self.decoderConfig)+" --filelist "+str(self.caseList)+" --log "+str(sResult)+" --sleep 2 &"
+        # doshell =  "./"+str(self.testTools)+" --config "+str(self.decoderConfig)+" --filelist "+str(self.caseList)+" --log "+str(sResult)+" --sleep 2 &"
 
-        os.system(doshell)
+        os.system("./"+str(self.testTools)+" --config "+str(self.decoderConfig)+" --filelist "+str(self.caseList)+" --log "+str(sResult)+" --sleep 2")
 
         os.chdir(pwd) #切换回原始路径
         time.sleep(1)

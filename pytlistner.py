@@ -42,7 +42,7 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'text/html')
             self.end_headers()
 
-            t =  public_methods.createThreading(param)
+            t = public_methods.createThreading(param)
             t.start()
 
         except Exception as e:

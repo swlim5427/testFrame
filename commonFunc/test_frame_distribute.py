@@ -12,7 +12,12 @@ class testFrameDistribute():
     def __init__(self,message):
 
         self.message = message
-        tablePath = os.getcwd()
+        tpSql = "select path from testPath;"
+
+        for testPath in public_methods.sqliteConnect([tpSql, 0]):
+            tablePath = testPath[0]
+            print tablePath
+
         self.tableName = tablePath+"/testcase/"+message["tableName"]
         self.caseId = message["caseId"]
         self.runTimes = message["times"]

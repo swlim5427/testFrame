@@ -8,7 +8,7 @@ import os
 import time
 
 def sqliteConnect(sql):
-    conn = sqlite3.connect('testFrame.db')
+    conn = sqlite3.connect('/tmp/testFrame.db')
     if sql[1] == 2:
         conn.close()
     else:
@@ -26,8 +26,12 @@ def sqliteConnect(sql):
 # --------------------------------------------------------------------------
 def initTable():
 
-    cSql = "create table testFrame (" \
+    path = os.getcwd()
+
+    ctfSql = "create table testFrame (" \
            "id text,caseId text,nextId text,count text,times text,nowCaseId text,leftNextId text);"
+    cpSql = "create table testPath (path text);"
+
     # id:执行id
     # caseId:启动测试的用例id
     # nextid:本次除caseId外所需要执行的caseId
@@ -35,18 +39,21 @@ def initTable():
     # times:总计要执行多少次
     # nowCaseId:当前执行的caseId
     # leftNextId:剩余要执行的caseId
-    sqliteConnect([cSql, 0])
+    sqliteConnect([ctfSql, 0])
+    sqliteConnect([cpSql,0])
 
     countSql = "select count(*) from testFrame;"
-    iSql = "insert into testFrame VALUES (" \
+    itfSql = "insert into testFrame VALUES (" \
            "\"1000001\",\"\",\"\",\"\",\"\",\"\",\"\");"
+    ipSql = "insert into testPath VALUES ("+"\""+path+"\")"
 
     try:
         for ida in sqliteConnect([countSql,0]):
             lineCount = ida[0]
         if lineCount == 0:
 
-            sqliteConnect([iSql, 0])
+            sqliteConnect([itfSql, 0])
+            sqliteConnect([ipSql, 0])
         # else:
         #     dSql = "drop table testFrame;"
         #     sqliteConnect([dSql, 0])
@@ -90,14 +97,17 @@ def downLoad(url,path):
 
     def reporthook(a,b,c):
         per = 100.0 * a * b / c
+
         if per >100:
             per = 100
-            r = per
-        # print '%.2f%%' % per
+            print '%.2f%%' % per
         elif per == 100:
-            r = per
-
+            print '%.2f%%' % per
+        # print '%.2f%%' % per
+        # else:
+        #     print '%.2f%%' % per
     urllib.urlretrieve(url,path,reporthook)
+
 
 # --------------------------------------------------------------------------
 

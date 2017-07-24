@@ -2,7 +2,7 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import io
 import urllib
-from commonFunc import *
+from commonfunc import *
 import json
 
 
@@ -19,14 +19,14 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
         url = urllib.unquote(self.path)
 
         if url == "/favicon.ico":
-            self.responseError()
+            self.response_error()
 
-        mpath, margs=urllib.splitquery(url)
+        mpath, margs = urllib.splitquery(url)
         self.action(margs)
 
     def action(self, datas):
         try:
-            datas = self.getParam(datas)
+            datas = self.get_param(datas)
             param = json.loads(datas)
 
             enc = "UTF-8"
@@ -40,14 +40,14 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'text/html')
             self.end_headers()
 
-            t = public_methods.createThreading(param)
+            t = public_methods.create_threading(param)
             t.start()
 
         except Exception as e:
             print e
-            self.responseError()
+            self.response_error()
 
-    def getParam(self, params):
+    def get_param(self, params):
 
         try:
             if len(params) == 0:
@@ -59,10 +59,12 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
                 else:
                     param = params.split('=')[1]
                 return param
-        except:
-            self.responseError()
 
-    def responseError(self):
+        except Exception as e:
+            print e
+            self.response_error()
+
+    def response_error(self):
         self.send_response(404)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
@@ -75,9 +77,8 @@ class CustomHTTPServer(HTTPServer):
 
 if __name__ == '__main__':
 
-    public_methods.initTable()
+    public_methods.init_table()
     server = CustomHTTPServer('172.21.2.119', 9989)
     print "service start"
 
     server.serve_forever()
-

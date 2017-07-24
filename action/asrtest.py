@@ -11,6 +11,7 @@ class AsrTest(object):
         self.message = message
         self.caseId = message["caseId"]
         self.url = message["url"]
+        self.version = message["version"]
         self.testCase = testCase
         self.data = data
         self.testId = testId
@@ -33,10 +34,10 @@ class AsrTest(object):
     def do_Test(self):
 
         pwd = os.getcwd()
-        testFoler = self.caseId+"-" + self.testId
-        resultPath, logPath = commonfunc.public_methods.mkdir(self.testPath, testFoler)
+        testFolder = self.version+"-"+self.caseId+"-" + self.testId
+        resultPath, logPath = commonfunc.public_methods.mkdir(self.testPath, testFolder)
 
-        casePath = self.testPath + testFoler
+        casePath = self.testPath+testFolder
         os.chdir(pwd)
 
         if self.url != "":

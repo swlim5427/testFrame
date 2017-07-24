@@ -79,7 +79,7 @@ def create_threading(param):
     return nThreading
 
 
-def get_NextCaseId(nextId):
+def get_nextCaseId(nextId):
 
     if nextId != 0:
         if nextId.replace('[', ''):

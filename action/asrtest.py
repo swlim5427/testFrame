@@ -19,7 +19,7 @@ class AsrTest(object):
         self.caseList = self.testCase["caselist"]
         self.answerList = self.testCase["answer"]
         self.decoderConfig = self.data["config"]
-        self.runTime = commonfunc.public_methods.getDateTime(1, 0)
+        self.runTime = commonfunc.public_methods.get_dateTime(1, 0)
 
         self.testPath = self.data["config"].split("decoder.conf")[0]
         #

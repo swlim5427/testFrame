@@ -8,12 +8,12 @@ import threading
 def check_test(message, testId):
 
     sSql = "select * from testFrame where id ="+str(testId)+";"
-    for r in public_methods.sqliteConnect([sSql, 0]):
+    for r in public_methods.sqlite_connect([sSql, 0]):
         caseId = r[1]
         nextId = r[2]
         count = r[3]
         times = r[4]
-        leftNextId = public_methods.getNextCaseId(r[6])
+        leftNextId = public_methods.get_nextCaseId(r[6])
 
     # 剩余caseId 为 0 时进入下个循环,count = times 并且 leftNextId 为空 时结束测试
 
@@ -40,7 +40,7 @@ def check_test(message, testId):
             uSql = "update testFrame SET nowCaseId =" + "\""+str(uNowCaseId)+"\",leftNextId =" + "\"" + str(
                 leftNextId) + "\",count =" + "\"" + str(uCount) + "\" where id ="+str(testId)+";"
 
-        public_methods.sqliteConnect([uSql, 1])
+        public_methods.sqlite_connect([uSql, 1])
 
         message.setdefault('id', testId)
         message.update({'caseId': uNowCaseId})

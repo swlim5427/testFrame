@@ -8,7 +8,7 @@ import os
 import time
 
 
-def sqliteConnect(sql):
+def sqlite_connect(sql):
     conn = sqlite3.connect('/tmp/testFrame.db')
     if sql[1] == 2:
         conn.close()
@@ -26,7 +26,7 @@ def sqliteConnect(sql):
             return False
 
 
-def initTable():
+def init_table():
 
     path = os.getcwd()
 
@@ -42,8 +42,8 @@ def initTable():
     # times:总计要执行多少次
     # nowCaseId:当前执行的caseId
     # leftNextId:剩余要执行的caseId
-    sqliteConnect([ctfSql, 0])
-    sqliteConnect([cpSql, 0])
+    sqlite_connect([ctfSql, 0])
+    sqlite_connect([cpSql, 0])
 
     countSql = "select count(*) from testFrame;"
     itfSql = "insert into testFrame VALUES (""" \
@@ -52,13 +52,13 @@ def initTable():
     ipSql = "insert into testPath VALUES ("+"\""+path+"\")"
 
     try:
-        for ida in sqliteConnect([countSql, 0]):
+        for ida in sqlite_connect([countSql, 0]):
             lineCount = ida[0]
 
         if lineCount == 0:
 
-            sqliteConnect([itfSql, 0])
-            sqliteConnect([ipSql, 0])
+            sqlite_connect([itfSql, 0])
+            sqlite_connect([ipSql, 0])
         # else:
         #     dSql = "drop table testFrame;"
         #     sqliteConnect([dSql, 0])
@@ -69,7 +69,7 @@ def initTable():
         print e
 
 
-def createThreading(param):
+def create_threading(param):
 
     p = []
     p.append(param)
@@ -79,7 +79,7 @@ def createThreading(param):
     return nThreading
 
 
-def getNextCaseId(nextId):
+def get_NextCaseId(nextId):
 
     if nextId != 0:
         if nextId.replace('[', ''):
@@ -95,7 +95,7 @@ def getNextCaseId(nextId):
         return nextId
 
 
-def downLoad(url, path):
+def download(url, path):
 
     import urllib
 
@@ -113,7 +113,7 @@ def downLoad(url, path):
     urllib.urlretrieve(url, path, reporthook)
 
 
-def getDateTime(fileName, NowTime):
+def get_dateTime(fileName, NowTime):
 
     dateTime = datetime.datetime.now()
 

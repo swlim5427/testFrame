@@ -13,7 +13,7 @@ class TestFrameDistribute():
         self.message = message
         tpSql = "select path from testPath;"
 
-        for testPath in public_methods.sqliteConnect([tpSql, 0]):
+        for testPath in public_methods.sqlite_connect([tpSql, 0]):
             tablePath = testPath[0]
             print tablePath
 
@@ -25,9 +25,9 @@ class TestFrameDistribute():
 
         self.haveNext = 0
 
-        self.getTestCase()
+        self.get_testcase()
 
-    def getTestCase(self):
+    def get_testcase(self):
 
         testTable = xlrd.open_workbook(self.tableName)
         self.testTableSheet = testTable.sheets()[0]
@@ -45,7 +45,7 @@ class TestFrameDistribute():
                 self.testTools = self.testTableSheet.cell(i, 4).value
                 nextId = self.testTableSheet.cell(i, 5).value
 
-        nextCaseId = public_methods.getNextCaseId(nextId)
+        nextCaseId = public_methods.get_nextCaseId(nextId)
 
         try:
             self.runId = self.message["id"]
@@ -54,20 +54,20 @@ class TestFrameDistribute():
 
             sSql = "select id from testFrame ORDER BY id DESC limit 0,1"
 
-            for testId in public_methods.sqliteConnect([sSql, 0]):
+            for testId in public_methods.sqlite_connect([sSql, 0]):
                 self.testId = testId
 
             nowCasId = self.caseId
             leftCaseId = nextCaseId
 
-            # 记录本次测试初始参数
+            # 记录本次测试初始参数1.
             iSql = "insert into testFrame VALUES (" \
                    "\""+str(int(testId[0])+1)+"\",\""+str(self.caseId)+"\",\""+str(nextCaseId)+"\",\""+str(0)+"\",\""+str(self.runTimes)+"\",\""+str(nowCasId)+"\",\""+str(leftCaseId)+"\");"
-            public_methods.sqliteConnect([iSql, 0])
+            public_methods.sqlite_connect([iSql, 0])
 
-        self.testDistribute()
+        self.test_distribute()
 
-    def testDistribute(self):
+    def test_distribute(self):
 
         caseType = self.caseId.split('_')[0]
 
@@ -81,6 +81,9 @@ class TestFrameDistribute():
                 runId = int(self.testId[0])+1
 
                 uSql = "update testFrame SET count = "+"\""+str(1)+"\" where id ="+str(runId)+";"
-                public_methods.sqliteConnect([uSql, 1])
+                public_methods.sqlite_connect([uSql, 1])
 
-            asrTest.AsrTest(self.message, self.testCase, str(runId), self.data, self.testTools)
+            asrtest.AsrTest(self.message, self.testCase, str(runId), self.data, self.testTools)
+
+    def a(self):
+        print "test"

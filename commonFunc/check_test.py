@@ -5,7 +5,7 @@ import test_frame_distribute
 import threading
 
 
-def chenckTest(message, testId):
+def check_test(message, testId):
 
     sSql = "select * from testFrame where id ="+str(testId)+";"
     for r in public_methods.sqliteConnect([sSql, 0]):

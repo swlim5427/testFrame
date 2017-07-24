@@ -1,12 +1,10 @@
 # coding=utf-8
-import commonFunc
-import threading
-import json
+import commonfunc
 import time
 import os
 
 
-class AsrTest():
+class AsrTest(object):
 
     def __init__(self, message, testCase, testId, data, testTools):
 
@@ -21,28 +19,28 @@ class AsrTest():
         self.caseList = self.testCase["caselist"]
         self.answerList = self.testCase["answer"]
         self.decoderConfig = self.data["config"]
-        self.runTime = commonFunc.public_methods.getDateTime(1,0)
+        self.runTime = commonfunc.public_methods.getDateTime(1, 0)
 
         self.testPath = self.data["config"].split("decoder.conf")[0]
         #
         # self.asrResult = self.testPath,self.caseId+"-",self.testId,"/result/",self.runTime
         # self.asrLog = self.testPath,"log/",self.runTime,".log"
 
-        self.doTest()
+        self.do_Test()
 
-        commonFunc.check_test.chenckTest(self.message, testId)
+        commonfunc.check_test.check_test(self.message, testId)
 
-    def doTest(self):
+    def do_Test(self):
 
         pwd = os.getcwd()
         testFoler = self.caseId+"-" + self.testId
-        resultPath, logPath = commonFunc.public_methods.mkdir(self.testPath, testFoler)
+        resultPath, logPath = commonfunc.public_methods.mkdir(self.testPath, testFoler)
 
         casePath = self.testPath + testFoler
         os.chdir(pwd)
 
         if self.url != "":
-            commonFunc.public_methods.downLoad(self.url, casePath+"/"+self.testTools)
+            commonfunc.public_methods.download(self.url, casePath + "/" + self.testTools)
 
         os.chdir(casePath)
 

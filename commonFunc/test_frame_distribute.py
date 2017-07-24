@@ -84,6 +84,3 @@ class TestFrameDistribute():
                 public_methods.sqlite_connect([uSql, 1])
 
             asrtest.AsrTest(self.message, self.testCase, str(runId), self.data, self.testTools)
-
-    def a(self):
-        print "test"

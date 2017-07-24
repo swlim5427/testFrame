@@ -7,14 +7,13 @@ import json
 
 
 class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
-    #----------接收post请求
+
     def do_POST(self):
 
         datas = self.rfile.read(int(self.headers['content-length']))
-        datas = urllib.unquote(datas).decode("utf-8",'ignore')
+        datas = urllib.unquote(datas).decode("utf-8", 'ignore')
         self.action(datas)
 
-    # ----------接收get请求
     def do_GET(self):
 
         url = urllib.unquote(self.path)
@@ -22,13 +21,12 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
         if url == "/favicon.ico":
             self.responseError()
 
-        mpath,margs=urllib.splitquery(url)
+        mpath, margs=urllib.splitquery(url)
         self.action(margs)
 
-    # ----------提取参数------------------
-    def action(self,datas):
+    def action(self, datas):
         try:
-            datas = self.getParam(datas) #提取param
+            datas = self.getParam(datas)
             param = json.loads(datas)
 
             enc = "UTF-8"
@@ -49,14 +47,14 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
             print e
             self.responseError()
 
-    def getParam(self,params):
+    def getParam(self, params):
 
         try:
-            if len(params)==0:
+            if len(params) == 0:
                 return
             else:
                 if "+" in params:
-                    p = params.replace("+","")
+                    p = params.replace("+", "")
                     param = p.split('=')[1]
                 else:
                     param = params.split('=')[1]
@@ -70,6 +68,7 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         return
 
+
 class CustomHTTPServer(HTTPServer):
     def __init__(self, host, port):
         HTTPServer.__init__(self, (host, port), CustomHTTPRequestHandler)
@@ -77,7 +76,7 @@ class CustomHTTPServer(HTTPServer):
 if __name__ == '__main__':
 
     public_methods.initTable()
-    server = CustomHTTPServer('172.21.13.122', 9989)
+    server = CustomHTTPServer('172.21.2.119', 9989)
     print "service start"
 
     server.serve_forever()

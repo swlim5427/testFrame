@@ -36,13 +36,12 @@ class AsrTest():
 
         pwd = os.getcwd()
         testFoler = self.caseId+"-" + self.testId
-        resultPath,logPath = commonFunc.public_methods.mkdir(self.testPath, testFoler)
+        resultPath, logPath = commonFunc.public_methods.mkdir(self.testPath, testFoler)
 
         casePath = self.testPath + testFoler
         os.chdir(pwd)
 
         if self.url != "":
-
             commonFunc.public_methods.downLoad(self.url, casePath+"/"+self.testTools)
 
         os.chdir(casePath)
@@ -50,8 +49,8 @@ class AsrTest():
         os.system('chmod +x '+self.testTools)
         sResult = str(resultPath)+"/"+str(self.runTime)
 
-# print self.caseId, "do test----",self.testId, "-----", threading.current_thread().getName()
+        # print self.caseId, "do test----",self.testId, "-----", threading.current_thread().getName()
         os.system("./"+str(self.testTools)+" --config "+str(self.decoderConfig)+" --filelist "+str(self.caseList)+" --log "+str(sResult)+" --sleep 2")
 
-        os.chdir(pwd) #切换回原始路径
+        os.chdir(pwd)
         time.sleep(1)

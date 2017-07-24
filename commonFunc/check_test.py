@@ -5,10 +5,10 @@ import test_frame_distribute
 import threading
 
 
-def chenckTest(message,testId):
+def chenckTest(message, testId):
 
     sSql = "select * from testFrame where id ="+str(testId)+";"
-    for r in public_methods.sqliteConnect([sSql,0]):
+    for r in public_methods.sqliteConnect([sSql, 0]):
         caseId = r[1]
         nextId = r[2]
         count = r[3]
@@ -48,4 +48,4 @@ def chenckTest(message,testId):
         test_frame_distribute.TestFrameDistribute(message)
     else:
 
-        print "test overs -----------",threading.current_thread().getName()
+        print "test overs -----------", threading.current_thread().getName()

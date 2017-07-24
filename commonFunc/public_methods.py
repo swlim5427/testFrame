@@ -14,7 +14,7 @@ def sqliteConnect(sql):
         conn.close()
     else:
         try:
-            cur = conn.execute(sql[0]);
+            cur = conn.execute(sql[0])
             conn.commit()
             if sql[1] == 1:
                 conn.close()
@@ -31,7 +31,8 @@ def initTable():
     path = os.getcwd()
 
     ctfSql = "create table testFrame (" \
-           "id text,caseId text,nextId text,count text,times text,nowCaseId text,leftNextId text);"
+             "id text,caseId text,nextId text,count text,times text,nowCaseId text,leftNextId text);"
+
     cpSql = "create table testPath (path text);"
 
     # id:执行id
@@ -42,16 +43,18 @@ def initTable():
     # nowCaseId:当前执行的caseId
     # leftNextId:剩余要执行的caseId
     sqliteConnect([ctfSql, 0])
-    sqliteConnect([cpSql,0])
+    sqliteConnect([cpSql, 0])
 
     countSql = "select count(*) from testFrame;"
-    itfSql = "insert into testFrame VALUES (" \
-           "\"1000001\",\"\",\"\",\"\",\"\",\"\",\"\");"
+    itfSql = "insert into testFrame VALUES (""" \
+             "\"1000001\",\"\",\"\",\"\",\"\",\"\",\"\");"
+
     ipSql = "insert into testPath VALUES ("+"\""+path+"\")"
 
     try:
-        for ida in sqliteConnect([countSql,0]):
+        for ida in sqliteConnect([countSql, 0]):
             lineCount = ida[0]
+
         if lineCount == 0:
 
             sqliteConnect([itfSql, 0])
@@ -71,7 +74,7 @@ def createThreading(param):
     p = []
     p.append(param)
     print "new threading"
-    nThreading = threading.Thread(target=test_frame_distribute.TestFrameDistribute,args=(p))
+    nThreading = threading.Thread(target=test_frame_distribute.TestFrameDistribute, args=(p))
 
     return nThreading
 
@@ -89,7 +92,7 @@ def getNextCaseId(nextId):
         return nextCaseId
 
     else:
-       return nextId
+        return nextId
 
 
 def downLoad(url, path):
@@ -99,7 +102,7 @@ def downLoad(url, path):
     def reporthook(a, b, c):
         per = 100.0 * a * b / c
 
-        if per >100:
+        if per > 100:
             per = 100
             print '%.2f%%' % per
         elif per == 100:
@@ -110,12 +113,11 @@ def downLoad(url, path):
     urllib.urlretrieve(url, path, reporthook)
 
 
-def getDateTime(fileName,NowTime):
+def getDateTime(fileName, NowTime):
 
     dateTime = datetime.datetime.now()
 
     if fileName == 1 and NowTime == 0:
-        # fileName = str(dateTime.year)+str(dateTime.month)+str(dateTime.day)+str(dateTime.hour)+str(dateTime.minute)+str(dateTime.second)
 
         inputYear = dateTime.year
         inputMonth = dateTime.month
@@ -129,7 +131,7 @@ def getDateTime(fileName,NowTime):
                                           hour=int(inputHour), minute=int(inputMinute), second=int(inputSecond))
         formatTime = long(round(time.mktime(imputDateTime.timetuple())))
 
-        nowTime = long(str(formatTime) + str(mTime / 1000))
+        nowTime = long(str(formatTime) + str(mTime/1000))
 
         return nowTime
 
@@ -137,7 +139,7 @@ def getDateTime(fileName,NowTime):
         return dateTime
 
 
-def mkdir(testPath,testFolder):
+def mkdir(testPath, testFolder):
 
     os.chdir(testPath)
     try:
@@ -151,4 +153,4 @@ def mkdir(testPath,testFolder):
 
     result = str(testPath)+str(testFolder)+"/"+"result"
     log = str(testPath)+str(testFolder)+"/"+"log"
-    return result,log
+    return result, log

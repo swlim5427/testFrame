@@ -5,9 +5,10 @@ import json
 import time
 import os
 
+
 class AsrTest():
 
-    def __init__(self,message,testCase,testId,data,testTools):
+    def __init__(self, message, testCase, testId, data, testTools):
 
         self.message = message
         self.caseId = message["caseId"]
@@ -29,13 +30,13 @@ class AsrTest():
 
         self.doTest()
 
-        commonFunc.check_test.chenckTest(self.message,testId)
+        commonFunc.check_test.chenckTest(self.message, testId)
 
     def doTest(self):
 
         pwd = os.getcwd()
         testFoler = self.caseId+"-" + self.testId
-        resultPath,logPath = commonFunc.public_methods.mkdir(self.testPath,testFoler)
+        resultPath,logPath = commonFunc.public_methods.mkdir(self.testPath, testFoler)
 
         casePath = self.testPath + testFoler
         os.chdir(pwd)
@@ -46,10 +47,10 @@ class AsrTest():
 
         os.chdir(casePath)
 
-        os.system('chmod +x ' + self.testTools)
+        os.system('chmod +x '+self.testTools)
         sResult = str(resultPath)+"/"+str(self.runTime)
 
-        # print self.caseId, "do test----",self.testId, "-----", threading.current_thread().getName()
+# print self.caseId, "do test----",self.testId, "-----", threading.current_thread().getName()
         os.system("./"+str(self.testTools)+" --config "+str(self.decoderConfig)+" --filelist "+str(self.caseList)+" --log "+str(sResult)+" --sleep 2")
 
         os.chdir(pwd) #切换回原始路径

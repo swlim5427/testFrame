@@ -7,6 +7,7 @@ import datetime
 import os
 import time
 
+
 def sqliteConnect(sql):
     conn = sqlite3.connect('/tmp/testFrame.db')
     if sql[1] == 2:
@@ -23,7 +24,8 @@ def sqliteConnect(sql):
         except Exception as e:
             print e
             return False
-# --------------------------------------------------------------------------
+
+
 def initTable():
 
     path = os.getcwd()
@@ -62,7 +64,8 @@ def initTable():
 
     except Exception as e:
         print e
-# --------------------------------------------------------------------------
+
+
 def createThreading(param):
 
     p = []
@@ -73,7 +76,6 @@ def createThreading(param):
     return nThreading
 
 
-# --------------------------------------------------------------------------
 def getNextCaseId(nextId):
 
     if nextId != 0:
@@ -89,13 +91,12 @@ def getNextCaseId(nextId):
     else:
        return nextId
 
-# --------------------------------------------------------------------------
 
-def downLoad(url,path):
+def downLoad(url, path):
 
     import urllib
 
-    def reporthook(a,b,c):
+    def reporthook(a, b, c):
         per = 100.0 * a * b / c
 
         if per >100:
@@ -106,10 +107,8 @@ def downLoad(url,path):
         # print '%.2f%%' % per
         # else:
         #     print '%.2f%%' % per
-    urllib.urlretrieve(url,path,reporthook)
+    urllib.urlretrieve(url, path, reporthook)
 
-
-# --------------------------------------------------------------------------
 
 def getDateTime(fileName,NowTime):
 
@@ -136,6 +135,7 @@ def getDateTime(fileName,NowTime):
 
     else:
         return dateTime
+
 
 def mkdir(testPath,testFolder):
 

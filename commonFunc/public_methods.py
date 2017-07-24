@@ -109,7 +109,7 @@ def download(url, path):
             print '%.2f%%' % per
         # print '%.2f%%' % per
         # else:
-        #     print '%.2f%%' % per
+        #     print '%.2f%%' % per1
     urllib.urlretrieve(url, path, reporthook)
 
 

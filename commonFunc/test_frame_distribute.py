@@ -60,7 +60,7 @@ class TestFrameDistribute():
             nowCasId = self.caseId
             leftCaseId = nextCaseId
 
-            # 记录本次测试初始参数1.
+            # 记录本次测试初始参数.
             iSql = "insert into testFrame VALUES (" \
                    "\""+str(int(testId[0])+1)+"\",\""+str(self.caseId)+"\",\""+str(nextCaseId)+"\",\""+str(0)+"\",\""+str(self.runTimes)+"\",\""+str(nowCasId)+"\",\""+str(leftCaseId)+"\");"
             public_methods.sqlite_connect([iSql, 0])
@@ -84,3 +84,5 @@ class TestFrameDistribute():
                 public_methods.sqlite_connect([uSql, 1])
 
             asrtest.AsrTest(self.message, self.testCase, str(runId), self.data, self.testTools)
+    def a(self):
+        print "1"

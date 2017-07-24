@@ -4,7 +4,7 @@ import io
 import urllib
 from commonfunc import *
 import json
-
+import logging
 
 class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
 

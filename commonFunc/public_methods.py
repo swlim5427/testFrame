@@ -68,7 +68,7 @@ def createThreading(param):
     p = []
     p.append(param)
     print "new threading"
-    nThreading = threading.Thread(target=test_frame_distribute.testFrameDistribute,args=(p))
+    nThreading = threading.Thread(target=test_frame_distribute.TestFrameDistribute,args=(p))
 
     return nThreading
 

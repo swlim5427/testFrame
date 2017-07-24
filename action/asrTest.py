@@ -5,7 +5,7 @@ import json
 import time
 import os
 
-class asrTest():
+class AsrTest():
 
     def __init__(self,message,testCase,testId,data,testTools):
 
@@ -27,11 +27,9 @@ class asrTest():
         # self.asrResult = self.testPath,self.caseId+"-",self.testId,"/result/",self.runTime
         # self.asrLog = self.testPath,"log/",self.runTime,".log"
 
-
         self.doTest()
 
         commonFunc.check_test.chenckTest(self.message,testId)
-
 
     def doTest(self):
 
@@ -42,7 +40,6 @@ class asrTest():
         casePath = self.testPath + testFoler
         os.chdir(pwd)
 
-
         if self.url != "":
 
             commonFunc.public_methods.downLoad(self.url, casePath+"/"+self.testTools)
@@ -52,10 +49,7 @@ class asrTest():
         os.system('chmod +x ' + self.testTools)
         sResult = str(resultPath)+"/"+str(self.runTime)
 
-        print self.caseId, "do test----",self.testId, "-----", threading.current_thread().getName()
-
-        # doshell =  "./"+str(self.testTools)+" --config "+str(self.decoderConfig)+" --filelist "+str(self.caseList)+" --log "+str(sResult)+" --sleep 2 &"
-
+        # print self.caseId, "do test----",self.testId, "-----", threading.current_thread().getName()
         os.system("./"+str(self.testTools)+" --config "+str(self.decoderConfig)+" --filelist "+str(self.caseList)+" --log "+str(sResult)+" --sleep 2")
 
         os.chdir(pwd) #切换回原始路径

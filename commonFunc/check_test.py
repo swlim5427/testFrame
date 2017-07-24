@@ -45,7 +45,7 @@ def chenckTest(message,testId):
         message.setdefault('id', testId)
         message.update({'caseId': uNowCaseId})
 
-        test_frame_distribute.testFrameDistribute(message)
+        test_frame_distribute.TestFrameDistribute(message)
     else:
 
         print "test overs -----------",threading.current_thread().getName()

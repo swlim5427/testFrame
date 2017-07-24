@@ -7,7 +7,7 @@ import logging
 import os
 
 
-class testFrameDistribute():
+class TestFrameDistribute():
     #-----------------------
     def __init__(self,message):
 
@@ -85,5 +85,5 @@ class testFrameDistribute():
                 uSql =  "update testFrame SET count = "+"\""+str(1)+"\" where id ="+str(runId)+";"
                 public_methods.sqliteConnect([uSql,1])
 
-            asrTest.asrTest(self.message,self.testCase,str(runId),self.data,self.testTools)
+            asrTest.AsrTest(self.message,self.testCase,str(runId),self.data,self.testTools)
 

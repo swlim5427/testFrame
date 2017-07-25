@@ -71,8 +71,6 @@ class AsrTest(object):
                 rLine = line.split(rt)[1]
                 wrt = "rt:"+rLine
                 rlResult.close()
-            else:
-                wrt = "test error"
 
         testResult = codecs.open(str(sResult)+"rate", 'r+', 'utf-8')
         rTestResult = testResult.read()

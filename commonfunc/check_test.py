@@ -43,7 +43,9 @@ def check_test(message, testId):
         public_methods.sqlite_connect([uSql, 1])
 
         message.setdefault('id', testId)
+        message.setdefault('count', uCount)
         message.update({'caseId': uNowCaseId})
+
 
         test_frame_distribute.TestFrameDistribute(message)
     else:

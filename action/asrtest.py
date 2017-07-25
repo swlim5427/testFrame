@@ -57,7 +57,7 @@ class AsrTest(object):
         os.chdir(answerPath)
         os.system("python ")
 
-        os.system("python pasr_calc_recrate.py -s sclite -m answer.list -r "+str(sResult)+" -o "+str(sResult)+"rate")
+        os.system("./pasr_calc_recrate.py -s sclite -m answer.list -r "+str(sResult)+" -o "+str(sResult)+"rate")
 
         os.chdir(pwd)
         time.sleep(1)

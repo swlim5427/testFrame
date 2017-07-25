@@ -154,8 +154,6 @@ def mkdir(testPath, testFolder):
     except Exception as e:
         print e
 
-    result = str(testPath)+str(testFolder)+"/"+"result"
-    log = str(testPath)+str(testFolder)+"/"+"log"
+    result = str(testPath) + str(testFolder) + "/" + "result"
+    log = str(testPath) + str(testFolder) + "/" + "log"
     return result, log
-    print "1"
-

@@ -46,10 +46,11 @@ class AsrTest(object):
         os.chdir(casePath)
 
         os.system('chmod +x '+self.testTools)
-        sResult = str(resultPath)+"/"+str(self.runTime)
+        lResult = str(resultPath) + "/" + str(self.runTime) + ".log"
+        sResult = str(resultPath) + "/" + str(self.runTime)
 
         # print self.caseId, "do test----",self.testId, "-----", threading.current_thread().getName()
-        os.system("./"+str(self.testTools)+" --config "+str(self.decoderConfig)+" --filelist "+str(self.caseList)+" --log "+str(sResult)+" --sleep 2")
+        os.system("./"+str(self.testTools)+" --config "+str(self.decoderConfig)+" --filelist "+str(self.caseList)+" --log "+str(sResult)+" --sleep 2 >>"+lResult)
 
         os.chdir(pwd)
         time.sleep(1)

@@ -35,13 +35,16 @@ def init_table():
 
     cpSql = "create table testPath (path text);"
 
-    # id:执行id
-    # caseId:启动测试的用例id
-    # nextid:本次除caseId外所需要执行的caseId
-    # count:当前执行到第几次
-    # times:总计要执行多少次
-    # nowCaseId:当前执行的caseId
-    # leftNextId:剩余要执行的caseId
+    '''
+    id:执行id
+    caseId:启动测试的用例id
+    nextid:本次除caseId外所需要执行的caseId
+    count:当前执行到第几次
+    times:总计要执行多少次
+    nowCaseId:当前执行的caseId
+    leftNextId:剩余要执行的caseId
+    '''
+
     sqlite_connect([ctfSql, 0])
     sqlite_connect([cpSql, 0])
 

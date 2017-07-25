@@ -12,7 +12,12 @@ class AsrTest(object):
         self.caseId = message["caseId"]
         self.url = message["url"]
         self.version = message["version"]
-        self.count = message["count"]
+
+        try:
+            self.count = self.message["count"]
+        except KeyError:
+            self.count = 1
+
         self.testCase = testCase
         self.data = data
         self.testId = testId

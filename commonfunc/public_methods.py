@@ -151,7 +151,7 @@ def mkdir(testPath, testFolder):
         os.makedirs("result")
         os.makedirs("log")
 
-    except Exception as e:
+    except IOError as e:
         print e
 
     result = str(testPath) + str(testFolder) + "/" + "result"

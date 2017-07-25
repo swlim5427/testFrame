@@ -77,7 +77,8 @@ class TestFrameDistribute():
                 runId = self.message["id"]
                 logging.info(runId, "distribute test")
 
-            except:
+            except KeyError:
+
                 runId = int(self.testId[0])+1
 
                 uSql = "update testFrame SET count = "+"\""+str(1)+"\" where id ="+str(runId)+";"

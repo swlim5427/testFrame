@@ -40,10 +40,15 @@ def check_test(message, testId):
             uSql = "update testFrame SET nowCaseId =" + "\""+str(uNowCaseId)+"\",leftNextId =" + "\"" + str(
                 leftNextId) + "\",count =" + "\"" + str(uCount) + "\" where id ="+str(testId)+";"
 
+
         public_methods.sqlite_connect([uSql, 1])
 
+        try:
+            message.update({'count': uCount})
+        except KeyError:
+            message.setdefault('count', uCount)
+
         message.setdefault('id', testId)
-        message.setdefault('count', uCount)
         message.update({'caseId': uNowCaseId})
 
 

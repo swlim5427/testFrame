@@ -45,8 +45,10 @@ def check_test(message, testId):
 
         try:
             message.update({'count': uCount})
-        except KeyError:
-            message.setdefault('count', uCount)
+        except Exception as e:
+            print e
+            message.setdefault('count', 1)
+
 
         message.setdefault('id', testId)
         message.update({'caseId': uNowCaseId})

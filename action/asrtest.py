@@ -66,7 +66,7 @@ class AsrTest(object):
                 rt = "rt:"+rLine
                 rlResult.close()
 
-        testResult = codecs.open(sResult, 'r+', 'utf-8')
+        testResult = codecs.open(str(sResult)+"rate", 'r+', 'utf-8')
         rTestResult = testResult.read()
         testResult.seek(0)
         testResult.write(rt+'\n')

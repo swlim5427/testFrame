@@ -62,7 +62,7 @@ class AsrTest(object):
         os.system("./"+str(self.testTools)+" --config "+str(self.decoderConfig)+" --filelist "+str(self.caseList)+" --log "+str(sResult)+" --sleep 2 >>"+lResult)
         os.chdir(answerPath)
 
-        os.system("python pasr_calc_recrate.py -s sclite -m answer.list -r "+str(sResult)+" -o "+str(self.count)+"rate")
+        os.system("python pasr_calc_recrate.py -s sclite -m answer.list -r "+str(sResult)+" -o "+str(sResult)+"rate")
 
         rlResult = codecs.open(lResult,'r','utf-8')
         rt = ",rt:"

@@ -55,9 +55,8 @@ class AsrTest(object):
         # print self.caseId, "do test----",self.testId, "-----", threading.current_thread().getName()
         os.system("./"+str(self.testTools)+" --config "+str(self.decoderConfig)+" --filelist "+str(self.caseList)+" --log "+str(sResult)+" --sleep 2 >>"+lResult)
         os.chdir(answerPath)
-        os.system("python ")
 
-        os.system("./pasr_calc_recrate.py -s sclite -m answer.list -r "+str(sResult)+" -o "+str(sResult)+"rate")
+        os.system("python pasr_calc_recrate.py -s sclite -m answer.list -r "+str(sResult)+" -o "+str(sResult)+"rate")
 
         os.chdir(pwd)
         time.sleep(1)

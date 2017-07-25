@@ -2,7 +2,6 @@
 import commonfunc
 import time
 import os
-import threading
 import codecs
 
 class AsrTest(object):
@@ -13,6 +12,7 @@ class AsrTest(object):
         self.caseId = message["caseId"]
         self.url = message["url"]
         self.version = message["version"]
+        self.count = message["count"]
         self.testCase = testCase
         self.data = data
         self.testId = testId
@@ -21,6 +21,7 @@ class AsrTest(object):
         self.caseList = self.testCase["caselist"]
         self.answerList = self.testCase["answer"]
         self.decoderConfig = self.data["config"]
+
         self.runTime = commonfunc.public_methods.get_dateTime(1, 0)
 
         #
@@ -49,14 +50,14 @@ class AsrTest(object):
         os.chdir(casePath)
 
         os.system('chmod +x '+self.testTools)
-        lResult = str(resultPath) + "/" + str(self.runTime) + ".log"
-        sResult = str(resultPath) + "/" + str(self.runTime)
+        lResult = str(resultPath) + "/" + str(self.count) + ".log"
+        sResult = str(resultPath) + "/" + str(self.count)
 
         # print self.caseId, "do test----",self.testId, "-----", threading.current_thread().getName()
-        os.system("./"+str(self.testTools)+" --config "+str(self.decoderConfig)+" --filelist "+str(self.caseList)+" --log "+str(sResult)+" --sleep 2 >>"+lResult)
+        os.system("./"+str(self.testTools)+" --config "+str(self.decoderConfig)+" --filelist "+str(self.caseList)+" --log "+str(self.count)+" --sleep 2 >>"+lResult)
         os.chdir(answerPath)
 
-        os.system("python pasr_calc_recrate.py -s sclite -m answer.list -r "+str(sResult)+" -o "+str(sResult)+"rate")
+        os.system("python pasr_calc_recrate.py -s sclite -m answer.list -r "+str(sResult)+" -o "+str(self.count)+"rate")
 
         rlResult = codecs.open(lResult,'r','utf-8')
         rt = ",rt:"

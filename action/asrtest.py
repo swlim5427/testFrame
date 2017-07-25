@@ -69,13 +69,15 @@ class AsrTest(object):
         for line in reversed(rlResult.readlines()):
             if rt in line:
                 rLine = line.split(rt)[1]
-                rt = "rt:"+rLine
+                wrt = "rt:"+rLine
                 rlResult.close()
+            else:
+                wrt = "test error"
 
         testResult = codecs.open(str(sResult)+"rate", 'r+', 'utf-8')
         rTestResult = testResult.read()
         testResult.seek(0)
-        testResult.write(rt+'\n')
+        testResult.write(wrt+'\n')
         testResult.write(rTestResult)
         testResult.close()
 

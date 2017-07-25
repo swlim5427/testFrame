@@ -2,7 +2,7 @@
 import commonfunc
 import time
 import os
-
+import threading
 
 class AsrTest(object):
 
@@ -49,7 +49,7 @@ class AsrTest(object):
         lResult = str(resultPath) + "/" + str(self.runTime) + ".log"
         sResult = str(resultPath) + "/" + str(self.runTime)
 
-        # print self.caseId, "do test----",self.testId, "-----", threading.current_thread().getName()
+        print self.caseId, "do test----",self.testId, "-----", threading.current_thread().getName()
         os.system("./"+str(self.testTools)+" --config "+str(self.decoderConfig)+" --filelist "+str(self.caseList)+" --log "+str(sResult)+" --sleep 2 >>"+lResult)
 
         os.chdir(pwd)

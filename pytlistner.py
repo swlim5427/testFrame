@@ -6,6 +6,7 @@ from commonfunc import *
 import json
 import logging
 
+
 class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):

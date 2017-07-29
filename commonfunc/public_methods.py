@@ -30,10 +30,10 @@ def init_table():
 
     path = os.getcwd()
 
-    ctfSql = "create table testFrame (" \
-             "id text,caseId text,nextId text,count text,times text,nowCaseId text,leftNextId text);"
+    ctf_sql = "create table testFrame " \
+              "(""id text,caseId text,nextId text,count text,times text,nowCaseId text,leftNextId text);"
 
-    cpSql = "create table testPath (path text);"
+    cp_sql = "create table testPath (path text);"
 
     '''
     id:执行id
@@ -45,23 +45,23 @@ def init_table():
     leftNextId:剩余要执行的caseId
     '''
 
-    sqlite_connect([ctfSql, 0])
-    sqlite_connect([cpSql, 0])
+    sqlite_connect([ctf_sql, 0])
+    sqlite_connect([cp_sql, 0])
 
-    countSql = "select count(*) from testFrame;"
-    itfSql = "insert into testFrame VALUES (""" \
-             "\"1000001\",\"\",\"\",\"\",\"\",\"\",\"\");"
+    count_sql = "select count(*) from testFrame;"
+    itf_sql = "insert into testFrame VALUES (""\"1000001\",\"\",\"\",\"\",\"\",\"\",\"\");"
 
-    ipSql = "insert into testPath VALUES ("+"\""+path+"\")"
-
+    ip_sql = "insert into testPath VALUES ("+"\""+path+"\")"
+    line_count = ""
     try:
-        for ida in sqlite_connect([countSql, 0]):
-            lineCount = ida[0]
+        # global line_count
+        for ida in sqlite_connect([count_sql, 0]):
+            line_count = ida[0]
 
-        if lineCount == 0:
+        if line_count == 0:
 
-            sqlite_connect([itfSql, 0])
-            sqlite_connect([ipSql, 0])
+            sqlite_connect([itf_sql, 0])
+            sqlite_connect([ip_sql, 0])
         # else:
         #     dSql = "drop table testFrame;"
         #     sqliteConnect([dSql, 0])
@@ -77,25 +77,25 @@ def create_threading(param):
     p = []
     p.append(param)
     print "new threading"
-    nThreading = threading.Thread(target=test_frame_distribute.TestFrameDistribute, args=(p))
+    new_threading = threading.Thread(target=test_frame_distribute.TestFrameDistribute, args=p)
 
-    return nThreading
+    return new_threading
 
 
-def get_nextCaseId(nextId):
+def get_next_caseid(next_id):
 
-    if nextId != 0:
-        if nextId.replace('[', ''):
-            nextId = nextId.replace('[', '')
-            nextId = nextId.replace(']', '')
-        nextId = nextId.replace('u\'', '')
-        nextId = nextId.replace('\'', '')
-        nextId = nextId.replace(' ', '')
-        nextCaseId = nextId.split(',')
-        return nextCaseId
+    if next_id != 0:
+        if next_id.replace('[', ''):
+            next_id = next_id.replace('[', '')
+            next_id = next_id.replace(']', '')
+        next_id = next_id.replace('u\'', '')
+        next_id = next_id.replace('\'', '')
+        next_id = next_id.replace(' ', '')
+        next_caseid = next_id.split(',')
+        return next_caseid
 
     else:
-        return nextId
+        return next_id
 
 
 def download(url, path):
@@ -116,44 +116,50 @@ def download(url, path):
     urllib.urlretrieve(url, path, reporthook)
 
 
-def get_dateTime(fileName, NowTime):
+def get_date_time(file_name, now_time):
 
-    dateTime = datetime.datetime.now()
+    date_time = datetime.datetime.now()
 
-    if fileName == 1 and NowTime == 0:
+    if file_name == 1 and now_time == 0:
 
-        inputYear = dateTime.year
-        inputMonth = dateTime.month
-        inputDay = dateTime.day
-        inputHour = dateTime.hour
-        inputMinute = dateTime.minute
-        inputSecond = dateTime.second
+        input_year = date_time.year
+        input_month = date_time.month
+        input_day = date_time.day
+        input_hour = date_time.hour
+        input_minute = date_time.minute
+        input_second = date_time.second
+        microsecond_time = date_time.microsecond
 
-        mTime = dateTime.microsecond
-        imputDateTime = datetime.datetime(year=int(inputYear), month=int(inputMonth), day=int(inputDay),
-                                          hour=int(inputHour), minute=int(inputMinute), second=int(inputSecond))
-        formatTime = long(round(time.mktime(imputDateTime.timetuple())))
+        imput_datetime = datetime.datetime(
+                year=int(input_year),
+                month=int(input_month),
+                day=int(input_day),
+                hour=int(input_hour),
+                minute=int(input_minute),
+                second=int(input_second)
+        )
+        format_time = long(round(time.mktime(imput_datetime.timetuple())))
 
-        nowTime = long(str(formatTime) + str(mTime/1000))
+        now_time = long(str(format_time) + str(microsecond_time/1000))
 
-        return nowTime
+        return now_time
 
     else:
-        return dateTime
+        return date_time
 
 
-def mkdir(testPath, testFolder):
+def mkdir(test_path, test_folder):
 
-    os.chdir(testPath)
+    os.chdir(test_path)
     try:
-        os.makedirs(testFolder)
-        os.chdir(testFolder)
+        os.makedirs(test_folder)
+        os.chdir(test_folder)
         os.makedirs("result")
         os.makedirs("log")
 
     except Exception as e:
         print e
 
-    result = str(testPath) + str(testFolder) + "/" + "result"
-    log = str(testPath) + str(testFolder) + "/" + "log"
+    result = str(test_path) + str(test_folder) + "/" + "result"
+    log = str(test_path) + str(test_folder) + "/" + "log"
     return result, log

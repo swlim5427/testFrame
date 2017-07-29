@@ -60,7 +60,7 @@ class TestFrameDistribute():
             nowCasId = self.caseId
             leftCaseId = nextCaseId
 
-            # 记录本次测试初始参数
+            ''' 记录本次测试初始参数 '''
             iSql = "insert into testFrame VALUES (" \
                    "\""+str(int(testId[0])+1)+"\",\""+str(self.caseId)+"\",\""+str(nextCaseId)+"\",\""+str(0)+"\",\""+str(self.runTimes)+"\",\""+str(nowCasId)+"\",\""+str(leftCaseId)+"\");"
             public_methods.sqlite_connect([iSql, 0])
@@ -70,6 +70,8 @@ class TestFrameDistribute():
     def test_distribute(self):
 
         caseType = self.caseId.split('_')[0]
+
+        ''' 判断测试类型 '''
 
         if caseType == "asr":
 

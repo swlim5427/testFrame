@@ -62,13 +62,7 @@ class AsrTest(object):
         print asr_log
         print asr_result
         print self.case_id, "do test----", self.test_id, "-----", threading.current_thread().getName()
-        os.system("./" +
-                  str(self.test_tools) +
-                  " --config "+str(self.decoder_config) +
-                  " --filelist "+str(self.case_list) +
-                  " --log "+str(asr_result) +
-                  " --sleep 2 >>"+asr_log
-                  )
+        os.system("./" +str(self.test_tools)+" --config "+str(self.decoder_config)+" --filelist "+str(self.case_list)+" --log "+str(asr_result)+" --sleep 2 >>"+asr_log)
         os.chdir(answer_path)
 
         os.system("python pasr_calc_recrate.py "

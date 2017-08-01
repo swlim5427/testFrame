@@ -31,13 +31,13 @@ def check_test(message, test_id):
 
         if left_next_id != [u'0']:
 
-            now_case_id = left_next_id[0]
+            update_case_id = left_next_id[0]
             del left_next_id[0]
 
             if len(left_next_id) == 0:
                 left_next_id = [0]
 
-            update_sql = "update testFrame SET nowCaseId ="+"\""+str(now_case_id)+"\",leftNextId ="+"\""+str(
+            update_sql = "update testFrame SET nowCaseId ="+"\""+str(update_case_id)+"\",leftNextId ="+"\""+str(
                 left_next_id)+"\" where id =" + str(test_id) + ";"
             # print "test:", count, "========", times, "---nowCaseId", uNowCaseId
 

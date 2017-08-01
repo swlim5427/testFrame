@@ -13,13 +13,13 @@ class TestFrameDistribute():
         self.message = message
         tpSql = "select path from testPath;"
 
-        for testPath in public_methods.sqlite_connect([tpSql, 0]):
-            tablePath = testPath[0]
-            print tablePath
+        for test_path in public_methods.sqlite_connect([tpSql, 0]):
+            table_path = test_path[0]
+            print table_path
 
-        self.tableName = tablePath+"/testcase/"+message["tableName"]
-        self.caseId = message["caseId"]
-        self.runTimes = message["times"]
+        self.table_name = table_path+"/testcase/"+message["tableName"]
+        self.case_id = message["caseId"]
+        self.run_times = message["times"]
         # self.version = message["version"]
         # self.url = message["url"]
 
@@ -29,61 +29,61 @@ class TestFrameDistribute():
 
     def get_testcase(self):
 
-        testTable = xlrd.open_workbook(self.tableName)
-        self.testTableSheet = testTable.sheets()[0]
+        test_table = xlrd.open_workbook(self.table_name)
+        self.test_table_sheet = test_table.sheets()[0]
 
-        self.rowNum = self.testTableSheet.nrows
+        self.rowNum = self.test_table_sheet.nrows
 
         for i in range(self.rowNum):
-            if self.testTableSheet.cell(i, 0).value == self.caseId:
+            if self.test_table_sheet.cell(i, 0).value == self.case_id:
 
-                tValue = self.testTableSheet.cell(i, 2).value
+                tValue = self.test_table_sheet.cell(i, 2).value
                 self.testCase = json.loads(tValue)
 
-                dValue = self.testTableSheet.cell(i, 3).value
+                dValue = self.test_table_sheet.cell(i, 3).value
                 self.data = json.loads(dValue)
-                self.testTools = self.testTableSheet.cell(i, 4).value
-                nextId = self.testTableSheet.cell(i, 5).value
+                self.testTools = self.test_table_sheet.cell(i, 4).value
+                next_id = self.test_table_sheet.cell(i, 5).value
 
-        nextCaseId = public_methods.get_nextCaseId(nextId)
+        next_case_id = public_methods.get_next_caseid(next_id)
 
         try:
-            self.runId = self.message["id"]
+            self.run_id = self.message["id"]
 
         except:
 
-            sSql = "select id from testFrame ORDER BY id DESC limit 0,1"
+            select_sql = "select id from testFrame ORDER BY id DESC limit 0,1"
 
-            for testId in public_methods.sqlite_connect([sSql, 0]):
-                self.testId = testId
+            for test_id in public_methods.sqlite_connect([select_sql, 0]):
+                self.test_id = test_id
 
-            nowCasId = self.caseId
-            leftCaseId = nextCaseId
+            now_case_id = self.case_id
+            left_case_id = next_case_id
 
             ''' 记录本次测试初始参数 '''
             iSql = "insert into testFrame VALUES (" \
-                   "\""+str(int(testId[0])+1)+"\",\""+str(self.caseId)+"\",\""+str(nextCaseId)+"\",\""+str(0)+"\",\""+str(self.runTimes)+"\",\""+str(nowCasId)+"\",\""+str(leftCaseId)+"\");"
+                   "\""+str(int(test_id[0])+1)+"\",\""+str(self.case_id)+"\",\""+str(next_case_id)+"\",\""+str(0)+"\",\""+str(self.run_times)+"\",\""+str(now_case_id)+"\",\""+str(left_case_id)+"\");"
             public_methods.sqlite_connect([iSql, 0])
 
         self.test_distribute()
 
     def test_distribute(self):
 
-        caseType = self.caseId.split('_')[0]
+        case_type = self.case_id.split('_')[0]
 
         ''' 判断测试类型 '''
 
-        if caseType == "asr":
+        if case_type == "asr":
 
             try:
-                runId = self.message["id"]
-                logging.info(runId, "distribute test")
+                run_id = self.message["id"]
+                logging.info(run_id, "distribute test")
 
             except KeyError:
 
-                runId = int(self.testId[0])+1
+                run_id = int(self.test_id[0])+1
 
-                uSql = "update testFrame SET count = "+"\""+str(1)+"\" where id ="+str(runId)+";"
-                public_methods.sqlite_connect([uSql, 1])
+                update_sql = "update testFrame SET count = "+"\""+str(1)+"\" where id ="+str(run_id)+";"
+                public_methods.sqlite_connect([update_sql, 1])
 
-            asrtest.AsrTest(self.message, self.testCase, str(runId), self.data, self.testTools)
+            asrtest.AsrTest(self.message, self.test_case, str(run_id), self.data, self.test_tools)

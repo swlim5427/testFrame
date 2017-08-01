@@ -61,7 +61,7 @@ class AsrTest(object):
 
         print asr_log
         print asr_result
-        print self.case_id, "do test----",self.test_id, "-----", threading.current_thread().getName()
+        print self.case_id, "do test----", self.test_id, "-----", threading.current_thread().getName()
         os.system("./" +
                   str(self.test_tools) +
                   " --config "+str(self.decoder_config) +

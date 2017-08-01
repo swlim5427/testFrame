@@ -38,11 +38,11 @@ class TestFrameDistribute():
             if self.test_table_sheet.cell(i, 0).value == self.case_id:
 
                 tValue = self.test_table_sheet.cell(i, 2).value
-                self.testCase = json.loads(tValue)
+                self.test_case = json.loads(tValue)
 
                 dValue = self.test_table_sheet.cell(i, 3).value
                 self.data = json.loads(dValue)
-                self.testTools = self.test_table_sheet.cell(i, 4).value
+                self.test_tools = self.test_table_sheet.cell(i, 4).value
                 next_id = self.test_table_sheet.cell(i, 5).value
 
         next_case_id = public_methods.get_next_caseid(next_id)

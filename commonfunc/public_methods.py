@@ -33,8 +33,6 @@ def init_table():
     ctf_sql = "create table testFrame " \
               "(""id text,caseId text,nextId text,count text,times text,nowCaseId text,leftNextId text);"
 
-    cp_sql = "create table testPath (path text);"
-
     '''
     id:执行id
     caseId:启动测试的用例id
@@ -44,9 +42,13 @@ def init_table():
     nowCaseId:当前执行的caseId
     leftNextId:剩余要执行的caseId
     '''
+    cp_sql = "create table testPath (path text);"
+
+    ressult_path_sql = "create table resultPath (testId text,resultPath text,tastPath text,resultFileName text)"
 
     sqlite_connect([ctf_sql, 0])
     sqlite_connect([cp_sql, 0])
+    sqlite_connect([ressult_path_sql, 0])
 
     count_sql = "select count(*) from testFrame;"
     itf_sql = "insert into testFrame VALUES (""\"1000001\",\"\",\"\",\"\",\"\",\"\",\"\");"
@@ -162,4 +164,5 @@ def mkdir(test_path, test_folder):
 
     result = str(test_path) + str(test_folder) + "/" + "result"
     log = str(test_path) + str(test_folder) + "/" + "log"
+
     return result, log

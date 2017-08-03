@@ -5,7 +5,7 @@ import test_frame_distribute
 import threading
 
 
-def check_test(message, test_id):
+def check_test(message, test_id, result):
 
     global count
     global times
@@ -14,7 +14,13 @@ def check_test(message, test_id):
     global next_id
     global update_count
 
+    insert_sql = "insert into resultPath VALUES (" \
+                 ""+"\""+test_id+"\",\"\",\"\",\""+str(result)+"\")"
+
+    public_methods.sqlite_connect([insert_sql, 0])
+
     select_sql = "select * from testFrame where id ="+str(test_id)+";"
+
     for r in public_methods.sqlite_connect([select_sql, 0]):
 
         case_id = r[1]
@@ -24,7 +30,7 @@ def check_test(message, test_id):
 
         left_next_id = public_methods.get_next_caseid(r[6])
 
-    # 剩余caseId 为 0 时进入下个循环,count = times 并且 leftNextId 为空 时结束测试
+    ''' 剩余caseId 为 0 时进入下个循环,count = times 并且 leftNextId 为空 时结束测试'''
 
     if count != times or left_next_id != [u'0']:
         global update_case_id

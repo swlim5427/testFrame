@@ -11,9 +11,9 @@ class TestFrameDistribute():
     def __init__(self, message):
 
         self.message = message
-        tpSql = "select path from testPath;"
+        tp_sql = "select path from testPath;"
 
-        for test_path in public_methods.sqlite_connect([tpSql, 0]):
+        for test_path in public_methods.sqlite_connect([tp_sql, 0]):
             table_path = test_path[0]
             print table_path
 
@@ -37,11 +37,11 @@ class TestFrameDistribute():
         for i in range(self.rowNum):
             if self.test_table_sheet.cell(i, 0).value == self.case_id:
 
-                tValue = self.test_table_sheet.cell(i, 2).value
-                self.test_case = json.loads(tValue)
+                t_value = self.test_table_sheet.cell(i, 2).value
+                self.test_case = json.loads(t_value)
 
-                dValue = self.test_table_sheet.cell(i, 3).value
-                self.data = json.loads(dValue)
+                d_value = self.test_table_sheet.cell(i, 3).value
+                self.data = json.loads(d_value)
                 self.test_tools = self.test_table_sheet.cell(i, 4).value
                 next_id = self.test_table_sheet.cell(i, 5).value
 
@@ -61,9 +61,9 @@ class TestFrameDistribute():
             left_case_id = next_case_id
 
             ''' 记录本次测试初始参数 '''
-            iSql = "insert into testFrame VALUES (" \
+            insert_sql = "insert into testFrame VALUES (" \
                    "\""+str(int(test_id[0])+1)+"\",\""+str(self.case_id)+"\",\""+str(next_case_id)+"\",\""+str(0)+"\",\""+str(self.run_times)+"\",\""+str(now_case_id)+"\",\""+str(left_case_id)+"\");"
-            public_methods.sqlite_connect([iSql, 0])
+            public_methods.sqlite_connect([insert_sql, 0])
 
         self.test_distribute()
 

@@ -30,13 +30,14 @@ class AsrTest(object):
         self.decoder_config = self.data["config"]
 
         self.run_time = commonfunc.public_methods.get_date_time(1, 0)
+        self.test_result_file = ""
 
         # self.asrResult = self.testPath+self.caseId+"-"+self.testId+"/result/",self.runTime
         # self.asrLog = self.testPath+"log/"+self.runTime+".log"
 
         self.do_test()
 
-        commonfunc.check_test.check_test(self.message, self.test_id)
+        commonfunc.check_test.check_test(self.message, self.test_id, self.test_result_file)
 
     def do_test(self):
 
@@ -62,7 +63,14 @@ class AsrTest(object):
         print asr_log
         print asr_result
         print self.case_id, "do test----", self.test_id, "-----", threading.current_thread().getName()
-        os.system("./" +str(self.test_tools)+" --config "+str(self.decoder_config)+" --filelist "+str(self.case_list)+" --log "+str(asr_result)+" --sleep 2 >>"+asr_log)
+
+        os.system("./" +
+                  str(self.test_tools) +
+                  " --config " + str(self.decoder_config) +
+                  " --filelist " + str(self.case_list) +
+                  " --log " + str(asr_result) +
+                  " --sleep 2 >>" + asr_log)
+
         os.chdir(answer_path)
 
         os.system("python pasr_calc_recrate.py "
@@ -71,21 +79,46 @@ class AsrTest(object):
                   "-r "+str(asr_result) +
                   " -o "+str(asr_result)+"rate")
 
+        test_result = open(str(asr_result)+"rate")
+
+        lines = []
+        erase = False
+        for line in test_result:
+            if line.strip() == "Real time(s):":
+                erase = True
+            if not erase:
+                lines.append(line)
+            if line.strip() == "W-------------------------------------------------------":
+                erase = False
+            if line.strip() == "========================================================":
+                erase = True
+
+        test_result.close()
+
+        self.test_result_file = str(asr_result)+"rate_result"
+        open(self.test_result_file, 'w').writelines(lines)
+
         asr_rt = codecs.open(asr_log, 'r', 'utf-8')
         rt = ",rt:"
         global wrt
+
         for line in reversed(asr_rt.readlines()):
             if rt in line:
                 r_line = line.split(rt)[1]
-                wrt = "rt:"+r_line
+                wrt = "R T : "+r_line
                 asr_rt.close()
 
-        test_result = codecs.open(str(asr_result)+"rate", 'r+', 'utf-8')
-        read_test_result = test_result.read()
+        test_result_rt = codecs.open(str(self.test_result_file), 'r+', 'utf-8')
+        read_test_result = test_result_rt.read()
         test_result.seek(0)
-        test_result.write(wrt+'\n')
-        test_result.write(read_test_result)
-        test_result.close()
+        try:
+            test_result_rt.write('\n')
+            test_result_rt.write(wrt+'\n')
+            test_result_rt.write(read_test_result)
+            test_result_rt.close()
+        except Exception as e:
+            print e
+            print "testError"
 
         os.chdir(pwd)
         time.sleep(1)

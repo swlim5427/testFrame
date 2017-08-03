@@ -36,12 +36,13 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
             f.write(datas)
             f.seek(0)
 
+            t = public_methods.create_threading(param)
+            t.start()
+
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
 
-            t = public_methods.create_threading(param)
-            t.start()
 
         except Exception as e:
             print e
@@ -78,7 +79,7 @@ class CustomHTTPServer(HTTPServer):
 if __name__ == '__main__':
 
     public_methods.init_table()
-    server = CustomHTTPServer('172.21.2.119', 9989)
+    server = CustomHTTPServer('172.21.5.148', 9989)
     print "service start"
 
     server.serve_forever()

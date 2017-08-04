@@ -95,7 +95,7 @@ class AsrTest(object):
 
         test_result.close()
 
-        self.test_result_file = str(asr_result)+"rate_result"
+        self.test_result_file = str(asr_result)+"rate_result.txt"
         open(self.test_result_file, 'w').writelines(lines)
 
         asr_rt = codecs.open(asr_log, 'r', 'utf-8')

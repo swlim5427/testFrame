@@ -110,7 +110,7 @@ class AsrTest(object):
 
         test_result_rt = codecs.open(str(self.test_result_file), 'r+', 'utf-8')
         read_test_result = test_result_rt.read()
-        test_result.seek(0)
+        test_result_rt.seek(0)
         try:
             test_result_rt.write('\n')
             test_result_rt.write(wrt+'\n')

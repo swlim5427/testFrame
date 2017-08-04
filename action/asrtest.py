@@ -31,7 +31,7 @@ class AsrTest(object):
 
         self.run_time = commonfunc.public_methods.get_date_time(1, 0)
         self.test_result_file = ""
-
+        self.test_result_file_gbk = ""
         # self.asrResult = self.testPath+self.caseId+"-"+self.testId+"/result/",self.runTime
         # self.asrLog = self.testPath+"log/"+self.runTime+".log"
 
@@ -119,6 +119,10 @@ class AsrTest(object):
         except Exception as e:
             print e
             print "testError"
+
+        self.test_result_file_gbk = str(asr_result)+"rate_result_gbk.txt"
+
+        os.system("iconv -f utf-8 -t gbk "+self.test_result_file+" >"+self.test_result_file_gbk)
 
         os.chdir(pwd)
         time.sleep(1)

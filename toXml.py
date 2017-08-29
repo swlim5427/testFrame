@@ -27,19 +27,28 @@ def get_file(file_path):
 
 def get_wav_time(name):
 
-    with contextlib.closing(wave.open(name, 'r')) as f:
-        frames = f.getnframes()
-        rate = f.getframerate()
-        duration = frames / float(rate)
-        # print duration
-        return int(math.floor(duration*1000))
-
+    try:
+        with contextlib.closing(wave.open(name, 'r')) as f:
+            frames = f.getnframes()
+            rate = f.getframerate()
+            duration = frames / float(rate)
+            # print duration
+            return int(math.floor(duration*1000))
+    except:
+        print '找不到文件' + name
+        return 1
 
 def read_ref(ref_file):
     ref_file.replace("\n", "")
     # ref_file = "/Users/swlim/Desktop/pachira_work/toxml/t_list.ref"
 
-    ref_file_open = open(ref_file)
+    try:
+        ref_file_open = open(ref_file)
+
+    except:
+
+        print '找不到文件' + ref_file
+        return
 
     for line in ref_file_open:
         line_n = line.strip().split(" ")
@@ -49,9 +58,10 @@ def read_ref(ref_file):
         voice_answer = line_n_2[1]
         voice_time = get_wav_time(voice_name)
 
-        voice_answer_s, voice_time_s = split_name_time(voice_answer, voice_time)
+        if voice_time != 1:
+            voice_answer_s, voice_time_s = split_name_time(voice_answer, voice_time)
 
-        write_xml(voice_time, voice_name, voice_answer_s, voice_time_s)
+            write_xml(voice_time, voice_name, voice_answer_s, voice_time_s)
 
 
 def split_name_time(answer, voice_time):
@@ -143,17 +153,17 @@ def write_xml(voice_time, voice_name, voice_answer_s, voice_time_s):
     node_speech.appendChild(node_confidence)
     node_speech.appendChild(node_subject)
 
-    fp = open('/Users/swlim/Desktop/pachira_work/toxml/' + str(voice_time), 'w')
+    fp = open('/Users/swlim/Desktop/pachira_work/toxml/' + str(voice_time) + ".xml", 'w')
     doc.writexml(fp, indent='\t', addindent='\t', newl='\n', encoding="utf-8")
+    print str(voice_time) + ".xml"
 
 
 if __name__ == '__main__':
 
     try:
         file_path = sys.argv[1]
-        file_path = "/Users/swlim/python/testFrame/filelist"
+        # file_path = "/Users/swlim/python/testFrame/filelist"
         file_list = get_file(file_path)
-        # ref_file = get_file(file_list)
 
     except Exception as e:
         print e

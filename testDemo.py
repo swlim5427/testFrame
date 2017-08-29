@@ -306,7 +306,6 @@ def json_test():
     for i in range(1):
         print i
 
-
     print vl
 
     print kl[0]
@@ -364,6 +363,12 @@ def xml_test(voice_time, answer):
     # wav_file_list = os.system("cat /Users/swlim/Desktop/pachira_work/toxml/t_list.ref |awk '{print $1$2}'")
     # print wav_file_list
 
+
+def arg_test():
+    # a = sys.argv[0]
+    b = sys.argv[1]
+    print b
+    # print b
 # txt()
 # read_file()
 # mysql_connect()
@@ -378,4 +383,5 @@ def xml_test(voice_time, answer):
 # json_test()
 # char_test()
 # wav_test()
-ref_test()
+# ref_test()
+arg_test()

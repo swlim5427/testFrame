@@ -32,7 +32,6 @@ def get_wav_time(name):
             frames = f.getnframes()
             rate = f.getframerate()
             duration = frames / float(rate)
-            # print duration
             return int(math.floor(duration*1000))
     except:
         print '找不到文件' + name
